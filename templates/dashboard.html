@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
+    <link rel="stylesheet" href="style.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/dashboard.css') }}">
+   </head>
+<body>
+  <div class="sidebar">
+     <ul class="nav-links">
+        <li class="bad">
+          <a href="#" class="active">
+            <i class='bx bx-user'></i>
+            <span class="links_name"><b><u>User Info</u></b><br>Username: Radioactive_12<br>Ip-Address : 192.168.1.12</span>
+          </a>
+          </li>
+       <li class="bad1">
+          <a href="#">
+            <i class='bx bxs-devices'></i>
+            <span class="links_name"><img src="2.png" width="200px" height="180px" title="Router"></span>
+          </a>
+        </li>
+         <li class="bad2">
+          <a href="#">
+            <i class='bx bxs-pie-chart-alt-2'></i>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['HTTP', 'Hours per Day'],
+          ['SSH',     11],
+          ['FTP',      2],
+          ['ITF',  2],
+          ['Gateway', 2],
+          ['Redundant',    7]
+        ]);
+
+        var options = {
+          title: 'Packet Traffic',
+          backgroundColor: 'transparent',
+          is3D: true,
+          legend: {textStyle: {color: 'white', fontSize: 12}},titleTextStyle: {position :'bottom',color: 'white', fontName: 'Arial', fontSize: 12}
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
+              <div id="piechart_3d" style="width: 320px; height: 190px;"></div>
+          </a>
+        </li>
+        <li class="log_out">
+            <a href="#">
+            <i class='bx bxs-save'></i>
+            <span class="links_name">Save</span>
+          </a>
+          <a href="#">
+            <i class='bx bx-log-out'></i>
+            <span class="links_name">Log out</span>
+          </a>
+        </li>
+      </ul>
+  </div>
+  <section class="home-section">
+    <nav>
+       <div class="sidebar-button">
+        <i class='bx bx-menu sidebarBtn'></i>
+        <span class="dashboard">Network Device Monitoring and Automation System</span>
+      </div>
+
+    </nav>
+
+    <div class="home-content">
+	<div class="display-area">
+    <div class="column1">
+      <div class="overview-boxes">
+        <button onclick="javascript:SwapDivsWithClick('display','configure')">
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Display/Configure</div>
+          </div>
+        </div>
+      </button>
+
+
+		</div>
+      <div class="scroll-list" id="display" style="display:block">
+
+              <p> Display
+                <ul><li>Item1</li>
+                  <li>Item2</li>
+                  <li>Item3</li>
+                </ul>
+              <p>
+                <p> Display 
+                  <ul><li>Item1</li>
+                    <li>Item2</li>
+                    <li>Item3</li>
+                  </ul>
+                <p>
+                  <p> Display 
+                    <ul><li>Item1</li>
+                      <li>Item2</li>
+                      <li>Item3</li>
+                    </ul>
+                  <p>
+                    <p> Display 
+                      <ul><li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item3</li>
+                      </ul>
+                    <p>
+                      <p> Display 
+                        <ul><li>Item1</li>
+                          <li>Item2</li>
+                          <li>Item3</li>
+                        </ul>
+                      <p>
+                        <p> Display 
+                          <ul><li>Item1</li>
+                            <li>Item2</li>
+                            <li>Item3</li>
+                          </ul>
+                        <p>
+        </div>
+        <div class="scroll-list" id="configure" style="display:none;">
+
+          <p> Configure 
+            <ul><li>Item1</li>
+              <li>Item2</li>
+              <li>Item3</li>
+            </ul>
+          <p>
+            <p> Configure 
+              <ul><li>Item1</li>
+                <li>Item2</li>
+                <li>Item3</li>
+              </ul>
+            <p>
+              <p> Configure 
+                <ul><li>Item1</li>
+                  <li>Item2</li>
+                  <li>Item3</li>
+                </ul>
+              <p>
+                <p> Configure 
+                  <ul><li>Item1</li>
+                    <li>Item2</li>
+                    <li>Item3</li>
+                  </ul>
+                <p>
+                  <p> Configure 
+                    <ul><li>Item1</li>
+                      <li>Item2</li>
+                      <li>Item3</li>
+                    </ul>
+                  <p>
+                    <p> Configure 
+                      <ul><li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item3</li>
+                      </ul>
+                    <p>
+          </div>
+      </div>
+      <div class="column2">
+        <div class="white-space">
+          <p>Random Placeholder white splace. This will be used To display the outputs and Forms
+            Of the network device with swapping and inheritance done by flask
+            Random Placeholder white splace. This will be used To display the outputs and Forms
+            Of the network device with swapping and inheritance done by flask
+            Random Placeholder white splace. This will be used To display the outputs and Forms
+            Of the network device with swapping and inheritance done by flask
+            Random Placeholder white splace. This will be used To display the outputs and Forms
+            Of the network device with swapping and inheritance done by flask
+            Random Placeholder white splace. This will be used To display the outputs and Forms
+            Of the network device with swapping and inheritance done by flask
+            Random Placeholder white splace. This will be used To display the outputs and Forms
+            Of the network device with swapping and inheritance done by flask
+            Random Placeholder white splace. This will be used To display the outputs and Forms
+            Of the network device with swapping and inheritance done by flask
+            Random Placeholder white splace. This will be used To display the outputs and Forms
+            Of the network device with swapping and inheritance done by flask
+            Random Placeholder white splace. This will be used To display the outputs and Forms
+            Of the network device with swapping and inheritance done by flask
+          </p>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </section>
+
+
+  <script type="text/javascript" src="{{ url_for('static', filename='javascript/dashboard.js') }}"> </script>
+
+
+
+</body>
+</html>
