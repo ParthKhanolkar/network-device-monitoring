@@ -39,3 +39,13 @@ input[type="radio"]{
     font-size: 20px;
     margin-top: 15px;
 }
+
+.form-floating {
+    position: relative;
+    padding: 2.5px;
+}
+
+.radiobuttons {
+
+    padding-top: 7.5px;
+}

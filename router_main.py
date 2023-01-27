@@ -17,5 +17,18 @@ import Router.router_configure.security_configuration as security_configuration
 
 '''
 @app.route("/")
+@app.route("/router")
 def home():
-    return render_template("router_main.html", device=cisco_device)'''
+    if(session['login']):
+        return render_template("router_main.html", device=cisco_device)
+    else:
+        retuen redirect(url_for("login"))
+        
+        
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    #delete session info
+    ssh_connect.disconnect()
+    flask.session.pop('login')
+    return flask.redirect('/login')
+    '''
