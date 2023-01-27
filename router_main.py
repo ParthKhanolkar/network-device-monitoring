@@ -15,4 +15,7 @@ import Router.router_configure.LLDP_config as LLDP_config
 import Router.router_configure.NTP_config as NTP_config
 import Router.router_configure.security_configuration as security_configuration
 
-print(cisco_device['device_type'])
+'''
+@app.route("/")
+def home():
+    return render_template("router_main.html", device=cisco_device)'''
