@@ -1,4 +1,6 @@
-from connect import *
+from flask import Blueprint, redirect, url_for, render_template, request, flash, session
+
+router_main = Blueprint("router_main", __name__, static_folder="static", template_folder="templates")
 
 import Router.router_display.tech_support as tech_support
 import Router.router_display.interfaces_display as interfaces_display
@@ -15,20 +17,19 @@ import Router.router_configure.LLDP_config as LLDP_config
 import Router.router_configure.NTP_config as NTP_config
 import Router.router_configure.security_configuration as security_configuration
 
-'''
-@app.route("/")
-@app.route("/router")
+
+@router_main.route("/router")
 def home():
-    if(session['login']):
-        return render_template("router_main.html", device=cisco_device)
+    if('user' in session):
+        return render_template("router_main.html", username=session['user']['username'], ip=session['user']['ip'])
     else:
-        retuen redirect(url_for("login"))
+        return redirect(url_for("main"))
         
-        
+'''
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     #delete session info
     ssh_connect.disconnect()
-    flask.session.pop('login')
-    return flask.redirect('/login')
+    session.pop('user', None)
+    return flask.redirect(url_for("main"))
     '''

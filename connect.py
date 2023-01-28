@@ -2,9 +2,13 @@ from flask import Flask, redirect, url_for, render_template, request, flash, ses
 from netmiko import ConnectHandler
 from netmiko import (NetmikoTimeoutException, NetmikoAuthenticationException)
 from paramiko.ssh_exception import SSHException
+from router_main import router_main
+from switch_main import switch_main
 
 app = Flask(__name__)
-app.secret_key = "secret key"
+app.register_blueprint(router_main)
+app.register_blueprint(switch_main)
+app.secret_key = "ywZlyASUtzbr5hZqJy74pSQSck8GPSPb"
 
 @app.route('/')
 def main():
@@ -15,11 +19,11 @@ def login():
     ipaddress = request.form['ipaddress']
     username = request.form['username']
     password = request.form['password']
-    email = request.form['email']
+    #email = request.form['email']
     hardware = request.form['hardware']
 
     cisco_device = {'device_type':'cisco_ios', 'ip':ipaddress, 'username':username, 'password':password}
-    #session['login'] = cisco_device
+    session['user'] = cisco_device
     try:
         ssh_connect = ConnectHandler(**cisco_device)    
     except NetmikoTimeoutException:
@@ -33,18 +37,9 @@ def login():
         return(render_template("login.html"))
     else:
         if(hardware == "router"):
-            return(render_template("router_main.html", username=username, ip=ipaddress, email=email))
+            return(redirect('/router'))
         elif(hardware == "switch"):
-            return(render_template("switch.html", username=username, ip=ipaddress, email=email))
-
-
-
-    
-	   
-
-
-
-
+            return(redirect('/switch'))
 
 
 
