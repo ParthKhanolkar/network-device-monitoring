@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, render_template, request, flash, session
+from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session
 
 switch_main = Blueprint("switch_main", __name__, static_folder="static", template_folder="templates")
 

@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, render_template, request, flash, session
+from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session
 
 router_main = Blueprint("router_main", __name__, static_folder="static", template_folder="templates")
 
@@ -21,9 +21,35 @@ import Router.router_configure.security_configuration as security_configuration
 @router_main.route("/router")
 def home():
     if('user' in session):
-        return render_template("router_main.html", username=session['user']['username'], ip=session['user']['ip'])
+        return render_template("router_main.html")
     else:
         return redirect(url_for("main"))
+
+@router_main.route("/routerrunconf")
+def disp_run_conf():
+    return render_template("router_main.html",displayvar="This is running configuration")
+
+@router_main.route("/routerstartconf")
+def disp_start_conf():
+    return render_template("router_main.html",displayvar="This is startup configuration")
+
+@router_main.route("/ipintbr")
+def disp_IP_int():
+    return render_template("router_main.html",displayvar="This is IP Interface")
+
+@router_main.route("/ipintinfo")
+def disp_IP_info():
+    return render_template("router_main.html",displayvar="This is IP Interface Information")
+
+@router_main.route("/ipintdesc")
+def disp_IP_int_desc():
+    return render_template("router_main.html",displayvar="This is IP Interface Description")
+
+@router_main.route("/ipintstats")
+def disp_IP_int_stats():
+    return render_template("router_main.html",displayvar="This is IP Interface Stats")
+
+
         
 '''
 @app.route('/logout', methods=['GET', 'POST'])

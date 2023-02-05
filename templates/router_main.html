@@ -1,6 +1,25 @@
 {% extends "dashboard.html" %}
 {% block title %}Router{% endblock %}
-{% block userdata %}
-Username: {{username}}<br>
-IP address: {{ip}}<br>
+{% block devicesymbol %}<img src="{{ url_for('static', filename='images/router.png') }}" width="200px" height="180px" title="Router">{% endblock %}
+{% block displaylist %}
+<p>Configuration Display
+    <ul>
+    <li><a href="routerrunconf">Running Configuration</a></li>
+    <li><a href="routerstartconf">Stratup Configuration</a></li>
+    </ul>
+</p>
+
+<p>Interfaces Display
+    <ul>
+    <li><a href="ipintbr">IP Interfaces</a></li>
+    <li><a href="ipintinfo">IP Interface Information</a></li>
+    <li><a href="ipintdesc">IP Interface Description</a></li>
+    <li><a href="ipintstats">IP Interface Stats</a></li>
+    </ul>
+</p>
+{% endblock %}
+{% block configurelist %}
+{% endblock %}
+{% block whitespace %}
+{{displayvar}}
 {% endblock %}

@@ -16,13 +16,13 @@
         <li class="bad">
           <a href="#" class="active">
             <i class='bx bx-user'></i>
-            <span class="links_name"><b><u>User Info</u></b><br>{% block userdata %}{% endblock %}</span>
+            <span class="links_name"><b><u>User Info</u></b><br>Username: {{session['user']['username']}}<br>IP Address: {{session['user']['ip']}}</span>
           </a>
           </li>
        <li class="bad1">
           <a href="#">
             <i class='bx bxs-devices'></i>
-            <span class="links_name"><img src="2.png" width="200px" height="180px" title="Router"></span>
+            <span class="links_name">{% block devicesymbol %}{% endblock %}</span>
           </a>
         </li>
          <li class="bad2">
@@ -92,7 +92,7 @@
 
 		</div>
       <div class="scroll-list" id="display" style="display:block">
-
+              {% block displaylist %}
               <p> Display
                 <ul><li>Item1</li>
                   <li>Item2</li>
@@ -129,9 +129,10 @@
                             <li>Item3</li>
                           </ul>
                         <p>
+                  {% endblock %}
         </div>
         <div class="scroll-list" id="configure" style="display:none;">
-
+          {% block configurelist %}
           <p> Configure 
             <ul><li>Item1</li>
               <li>Item2</li>
@@ -168,10 +169,13 @@
                         <li>Item3</li>
                       </ul>
                     <p>
+
+                      {% endblock %}
           </div>
       </div>
       <div class="column2">
         <div class="white-space">
+          {% block whitespace %}
           <p>Random Placeholder white splace. This will be used To display the outputs and Forms
             Of the network device with swapping and inheritance done by flask
             Random Placeholder white splace. This will be used To display the outputs and Forms
@@ -191,6 +195,7 @@
             Random Placeholder white splace. This will be used To display the outputs and Forms
             Of the network device with swapping and inheritance done by flask
           </p>
+          {% endblock %}
         </div>
       </div>
     </div>

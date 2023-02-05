@@ -23,7 +23,7 @@ def login():
     hardware = request.form['hardware']
 
     cisco_device = {'device_type':'cisco_ios', 'ip':ipaddress, 'username':username, 'password':password}
-    #session['user'] = cisco_device
+    session['user'] = cisco_device #remove this line after development
     try:
         ssh_connect = ConnectHandler(**cisco_device)    
     except NetmikoTimeoutException:
