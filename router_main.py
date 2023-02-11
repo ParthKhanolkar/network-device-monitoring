@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session
+from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session, json, jsonify
 
 router_main = Blueprint("router_main", __name__, static_folder="static", template_folder="templates")
 
@@ -25,9 +25,16 @@ def home():
     else:
         return redirect(url_for("main"))
 
-@router_main.route("/routerrunconf")
+@router_main.route("/routerrunconf", methods=['POST'])
 def disp_run_conf():
-    return render_template("router_main.html",displayvar="This is running configuration")
+    if request.method == 'POST':
+        #datavar = jsonify(request.form)
+        #print(datavar)
+        html_item = json.dumps(request.form, indent=2, separators=(', ', ': '))
+        print(html_item)
+        #return('',204)
+        return render_template("router_main.html",displayvar="html_item")
+        
 
 @router_main.route("/routerstartconf")
 def disp_start_conf():
@@ -48,6 +55,7 @@ def disp_IP_int_desc():
 @router_main.route("/ipintstats")
 def disp_IP_int_stats():
     return render_template("router_main.html",displayvar="This is IP Interface Stats")
+
 
 
         

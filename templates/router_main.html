@@ -4,22 +4,25 @@
 {% block displaylist %}
 <p>Configuration Display
     <ul>
-    <li><a href="routerrunconf">Running Configuration</a></li>
-    <li><a href="routerstartconf">Stratup Configuration</a></li>
+    <li><a href="routerrunconf" target="_blank">Running Configuration</a></li>
+    <li><a href="routerstartconf" target="_blank">Stratup Configuration</a></li>
+    </ul>
+</p>
+<p>Interfaces Display
+    <ul>
+    <li><a href="ipintbr" target="_blank">IP Interfaces</a></li>
+    <li><a href="ipintinfo" target="_blank">IP Interface Information</a></li>
+    <li><a href="ipintdesc" target="_blank">IP Interface Description</a></li>
+    <li><a href="ipintstats" target="_blank">IP Interface Stats</a></li>
     </ul>
 </p>
 
-<p>Interfaces Display
-    <ul>
-    <li><a href="ipintbr">IP Interfaces</a></li>
-    <li><a href="ipintinfo">IP Interface Information</a></li>
-    <li><a href="ipintdesc">IP Interface Description</a></li>
-    <li><a href="ipintstats">IP Interface Stats</a></li>
-    </ul>
-</p>
 {% endblock %}
 {% block configurelist %}
 {% endblock %}
 {% block whitespace %}
 {{displayvar}}
+{% endblock %}
+{% block additionaljs %}
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/router_op.js') }}"> </script>
 {% endblock %}
