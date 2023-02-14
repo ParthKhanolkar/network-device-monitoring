@@ -15,3 +15,11 @@ def display_processes_memory():
 def display_processes_cpu():
     return ssh_connect.send_command('show processes cpu')
 
+def display_file_systems():
+    return ssh_connect.send_command('show file systems')
+
+def show_os_version():
+    return ssh_connect.send_command('show version')
+
+def show_flash_memory():
+    return ssh_connect.send_command('show flash')

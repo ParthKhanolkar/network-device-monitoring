@@ -25,36 +25,101 @@ def home():
     else:
         return redirect(url_for("main"))
 
-@router_main.route("/routerrunconf", methods=['POST'])
-def disp_run_conf():
-    if request.method == 'POST':
-        #datavar = jsonify(request.form)
-        #print(datavar)
-        html_item = json.dumps(request.form, indent=2, separators=(', ', ': '))
-        print(html_item)
-        #return('',204)
-        return render_template("router_main.html",displayvar="html_item")
+@router_main.route("/routerRunConf")
+def disp_router_run_conf():
+    #if request.method == 'POST':
+    #datavar = jsonify(request.form)
+    #print(datavar)
+    #html_item = json.dumps(request.form, indent=2, separators=(', ', ': '))
+    #print(html_item)
+    #return('',204)
+    return render_template("router_main.html",displayvar="html_item")
         
 
-@router_main.route("/routerstartconf")
-def disp_start_conf():
+@router_main.route("/routerStartConf")
+def disp_router_start_conf():
     return render_template("router_main.html",displayvar="This is startup configuration")
 
-@router_main.route("/ipintbr")
+@router_main.route("/routerIpIntBr")
 def disp_IP_int():
     return render_template("router_main.html",displayvar="This is IP Interface")
 
-@router_main.route("/ipintinfo")
+@router_main.route("/routerIpIntInfo")
 def disp_IP_info():
     return render_template("router_main.html",displayvar="This is IP Interface Information")
 
-@router_main.route("/ipintdesc")
+@router_main.route("/routerIpIntDesc")
 def disp_IP_int_desc():
     return render_template("router_main.html",displayvar="This is IP Interface Description")
 
-@router_main.route("/ipintstats")
+@router_main.route("/routerIpIntStats")
 def disp_IP_int_stats():
     return render_template("router_main.html",displayvar="This is IP Interface Stats")
+
+@router_main.route("/routerIpProto")
+def disp_IP_protocols():
+    return render_template("router_main.html",displayvar="This is IP Protocols")
+
+@router_main.route("/routerIpRoute")
+def disp_IP_routes():
+    return render_template("router_main.html",displayvar="This is IP Routes")
+
+@router_main.route("/routerLldpInfo")
+def disp_LLDP_info():
+    return render_template("router_main.html",displayvar="This is LLDP info")
+
+@router_main.route("/routerLldpTraffic")
+def disp_LLDP_traffic():
+    return render_template("router_main.html",displayvar="This is LLDP Traffic")
+
+@router_main.route("/routerLldpInterface")
+def disp_LLDP_interface():
+    return render_template("router_main.html",displayvar="This is LLDP Interface")
+
+@router_main.route("/routerLldpNeighbours")
+def disp_LLDP_neighbours():
+    return render_template("router_main.html",displayvar="This is LLDP Neighbours")
+
+@router_main.route("/routerLldpNeighboursDetail")
+def disp_LLDP_neighbours_detail():
+    return render_template("router_main.html",displayvar="This is LLDP Neighbours Detail")
+
+@router_main.route("/routerNtpClockDetail")
+def disp_IP_NTP_clock_detail():
+    return render_template("router_main.html",displayvar="This is NTP Clock Detail")
+
+@router_main.route("/routerNtpCalendar")
+def disp_IP_NTP_calendar():
+    return render_template("router_main.html",displayvar="This is NTP Calendar")
+
+@router_main.route("/routerNtpStatus")
+def disp_IP_NTP_status():
+    return render_template("router_main.html",displayvar="This is NTP Status")
+
+@router_main.route("/routerNtpAssociations")
+def disp_IP_NTP_associations():
+    return render_template("router_main.html",displayvar="This is NTP Associations")
+
+@router_main.route("/routerDisplayBuffers")
+def disp_IP_LLDP_info():
+    return render_template("router_main.html",displayvar="This is Buffers")
+
+@router_main.route("/routerDisplayStacks")
+def disp_IP_LLDP_info():
+    return render_template("router_main.html",displayvar="This is Stacks")
+
+@router_main.route("/routerDisplayMemoryPros")
+def disp_IP_LLDP_info():
+    return render_template("router_main.html",displayvar="This is Memory Processes")
+
+@router_main.route("/routerDisplayCpuPro")
+def disp_IP_LLDP_info():
+    return render_template("router_main.html",displayvar="This is CPU Processes")
+
+@router_main.route("/routerDisplaySyslog")
+def disp_IP_LLDP_info():
+    return render_template("router_main.html",displayvar="This is Router Syslog")
+
 
 
 
