@@ -99,7 +99,7 @@ def disp_IP_NTP_status():
 @router_main.route("/routerNtpAssociations")
 def disp_IP_NTP_associations():
     return render_template("router_main.html",displayvar="This is NTP Associations")
-
+'''
 @router_main.route("/routerDisplayBuffers")
 def disp_IP_LLDP_info():
     return render_template("router_main.html",displayvar="This is Buffers")
@@ -119,7 +119,7 @@ def disp_IP_LLDP_info():
 @router_main.route("/routerDisplaySyslog")
 def disp_IP_LLDP_info():
     return render_template("router_main.html",displayvar="This is Router Syslog")
-
+'''
 
 
 
