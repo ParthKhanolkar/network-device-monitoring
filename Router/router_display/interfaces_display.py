@@ -10,15 +10,15 @@ def grab_interfaces():
 
 def display_ip_interfaces():
     ssh_connect = get_ssh_connect()
-    return ssh_connect.send_command('show ip interface brief',use_textfsm=True)
+    return ssh_connect.send_command('show ip interface brief')
 
 def display_interface_info():
     ssh_connect = get_ssh_connect()
-    return ssh_connect.send_command('show interfaces',use_textfsm=True)
+    return ssh_connect.send_command('show interfaces')
 
 def display_interfaces_description():
     ssh_connect = get_ssh_connect()
-    return ssh_connect.send_command('show interfaces description',use_textfsm=True)
+    return ssh_connect.send_command('show interfaces description')
 
 def display_interface_status():
     ssh_connect = get_ssh_connect()
