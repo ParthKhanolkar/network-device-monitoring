@@ -1,1 +1,1 @@
-session['user'] = cisco_device
+from netmiko import ConnectHandler

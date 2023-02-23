@@ -8,7 +8,7 @@ def display_stacks():
 
 #To show memory used
 def display_processes_memory():
-    return ssh_connect.send_command('show show processes memory')
+    return ssh_connect.send_command('show processes memory')
 
 #displays detailed CPU utilization statistics about the active processes
 def display_buffers():

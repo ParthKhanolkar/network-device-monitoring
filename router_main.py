@@ -33,7 +33,7 @@ def disp_router_run_conf():
     #html_item = json.dumps(request.form, indent=2, separators=(', ', ': '))
     #print(html_item)
     #return('',204)
-    return render_template("router_main.html",displayvar="html_item")
+    return ssh_connect.send_command('')
         
 
 @router_main.route("/routerStartConf")
@@ -42,19 +42,19 @@ def disp_router_start_conf():
 
 @router_main.route("/routerIpIntBr")
 def disp_IP_int():
-    return render_template("router_main.html",displayvar="This is IP Interface")
+    return interfaces_display.display_ip_interfaces()
 
 @router_main.route("/routerIpIntInfo")
 def disp_IP_info():
-    return render_template("router_main.html",displayvar="This is IP Interface Information")
+    return interfaces_display.display_interface_info()
 
 @router_main.route("/routerIpIntDesc")
 def disp_IP_int_desc():
-    return render_template("router_main.html",displayvar="This is IP Interface Description")
+    return interfaces_display.display_interfaces_description()
 
 @router_main.route("/routerIpIntStats")
 def disp_IP_int_stats():
-    return render_template("router_main.html",displayvar="This is IP Interface Stats")
+    return interfaces_display.display_interface_status()
 
 @router_main.route("/routerIpProto")
 def disp_IP_protocols():

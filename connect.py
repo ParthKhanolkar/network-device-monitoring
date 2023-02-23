@@ -1,14 +1,19 @@
-from flask import Flask, redirect, url_for, render_template, request, flash, session
+from flask import Flask, redirect, url_for, render_template, request, flash, session, current_app
 from netmiko import ConnectHandler
 from netmiko import (NetmikoTimeoutException, NetmikoAuthenticationException)
 from paramiko.ssh_exception import SSHException
 from router_main import router_main
 from switch_main import switch_main
 
+
 app = Flask(__name__)
 app.register_blueprint(router_main)
 app.register_blueprint(switch_main)
 app.secret_key = "ywZlyASUtzbr5hZqJy74pSQSck8GPSPb"
+with app.app_context():
+    current_app.config["ssh_connect"] = None
+
+
 
 @app.route('/')
 def main():
@@ -25,7 +30,9 @@ def login():
     cisco_device = {'device_type':'cisco_ios', 'ip':ipaddress, 'username':username, 'password':password}
     #session['user'] = cisco_device #remove this line after development
     try:
-        ssh_connect = ConnectHandler(**cisco_device)    
+        ssh_connect = ConnectHandler(**cisco_device) 
+
+        current_app.config["ssh_connect"] = ssh_connect
     except NetmikoTimeoutException:
         flash("Device not reachable")
         return(render_template("login.html"))
@@ -41,6 +48,10 @@ def login():
             return(redirect('/router'))
         elif(hardware == "switch"):
             return(redirect('/switch'))
+
+
+def get_ssh_connect():
+    return current_app.config["ssh_connect"]
 
 
 
