@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session
+from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session, json, jsonify
 
 switch_main = Blueprint("switch_main", __name__, static_folder="static", template_folder="templates")
 
@@ -23,6 +23,32 @@ import Switch.switch_configure.NTP_config as NTP_config
 @switch_main.route("/switch")
 def home():
     if('user' in session):
-        return render_template("switch_main.html", username=session['user']['username'], ip=session['user']['ip'])
+        return render_template("switch_main.html")
     else:
         return redirect(url_for("main"))
+
+#ARP
+@switch_main.route("/switchArpTable")
+def disp_ARP_table():
+    return render_template("display_field.html",displayFieldVar=arp.display_arp_table())
+
+#LLDP
+@switch_main.route("/switchLldpInfo")
+def disp_LLDP_info():
+    return render_template("display_field.html",displayFieldVar=LLDP_display.display_lldp_info())
+
+@switch_main.route("/switchLldpTraffic")
+def disp_LLDP_traffic():
+    return render_template("display_field.html",displayFieldVar=LLDP_display.display_lldp_traffic())
+
+@switch_main.route("/switchLldpInterface")
+def disp_LLDP_interface():
+    return render_template("display_field.html",displayFieldVar=LLDP_display.display_lldp_interface())
+
+@switch_main.route("/switchLldpNeighbours")
+def disp_LLDP_neighbours():
+    return render_template("display_field.html",displayFieldVar=LLDP_display.display_lldp_neighbours())
+
+@switch_main.route("/switchLldpNeighboursDetail")
+def disp_LLDP_neighbours_detail():
+    return render_template("display_field.html",displayFieldVar=LLDP_display.display_lldp_neighbours_detail())

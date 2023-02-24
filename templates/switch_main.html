@@ -1,6 +1,28 @@
 {% extends "dashboard.html" %}
 {% block title %}Switch{% endblock %}
 {% block devicesymbol %}<img src="{{ url_for('static', filename='images/switch.png') }}" width="200px" height="180px" title="Switch">{% endblock %}
+
+{% block displaylist %}
+<p>ARP Display
+    <ul>
+    <li><a href="switchArpTable" target="_blank">ARP Table</a></li>
+    </ul>
+</p>
+<p>LLDP Display
+    <ul>
+    <li><a href="switchLldpInfo" target="_blank">LLDP Information</a></li>
+    <li><a href="switchLldpTraffic" target="_blank">LLDP Traffic</a></li>
+    <li><a href="switchLldpInterface" target="_blank">LLDP Interface</a></li>
+    <li><a href="switchLldpNeighbours" target="_blank">LLDP Neighbours</a></li>
+    <li><a href="switchLldpNeighboursDetail" target="_blank">LLDP Neighbours Detail</a></li>
+    </ul>
+</p>
+{% endblock %}
+{% block configurelist %}
+{% endblock %}
+{% block whitespace %}
+{{displayvar}}
+{% endblock %}
 {% block additionaljs %}
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/switch_op.js') }}"> </script>
 {% endblock %}

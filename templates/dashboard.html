@@ -57,14 +57,18 @@
           </a>
         </li>
         <li class="log_out">
+            {% block savebutton %}
             <a href="#">
             <i class='bx bxs-save'></i>
             <span class="links_name">Save</span>
           </a>
+          {% endblock %}
+          {% block logoutbutton %}
           <a href="#">
             <i class='bx bx-log-out'></i>
             <span class="links_name">Log out</span>
           </a>
+          {% endblock %}
         </li>
       </ul>
   </div>

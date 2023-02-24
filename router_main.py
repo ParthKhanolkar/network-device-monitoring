@@ -2,6 +2,8 @@ from flask import Flask, Blueprint, redirect, url_for, render_template, request,
 
 router_main = Blueprint("router_main", __name__, static_folder="static", template_folder="templates")
 
+
+
 import Router.router_display.tech_support as tech_support
 import Router.router_display.interfaces_display as interfaces_display
 import Router.router_display.syslog as syslog
@@ -18,6 +20,11 @@ import Router.router_configure.interface_config as interface_config
 import Router.router_configure.LLDP_config as LLDP_config
 import Router.router_configure.NTP_config as NTP_config
 import Router.router_configure.security_configuration as security_configuration
+
+import Router.router_save_logout.router_save_and_logout as router_save_and_logout
+
+
+
 
 
 @router_main.route("/router")
@@ -156,13 +163,16 @@ def disp_router_ip_dhcp_binding():
 
 
 
-
+@router_main.route('/routerSave')
+def save():
+    #delete session info
+    router_save_and_logout.router_save()
         
-'''
-@app.route('/logout', methods=['GET', 'POST'])
+
+@router_main.route('/routerLogout')
 def logout():
     #delete session info
-    ssh_connect.disconnect()
+    router_save_and_logout.router_logout()
     session.pop('user', None)
-    return flask.redirect(url_for("main"))
-'''
+    return redirect(url_for("main"))
+

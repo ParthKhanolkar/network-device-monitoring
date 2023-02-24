@@ -1,6 +1,18 @@
 {% extends "dashboard.html" %}
 {% block title %}Router{% endblock %}
 {% block devicesymbol %}<img src="{{ url_for('static', filename='images/router.png') }}" width="200px" height="180px" title="Router">{% endblock %}
+{% block savebutton %}
+<a href="routerSave">
+    <i class='bx bxs-save'></i>
+    <span class="links_name">Save</span>
+  </a>
+{% endblock %}
+{% block logoutbutton %}
+<a href="routerLogout">
+    <i class='bx bx-log-out'></i>
+    <span class="links_name">Log out</span>
+  </a>
+{% endblock %}
 {% block displaylist %}
 <p>Configuration Display
     <ul>
