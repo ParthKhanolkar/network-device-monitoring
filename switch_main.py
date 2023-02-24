@@ -11,6 +11,7 @@ import Switch.switch_display.vlan_display as vlan_display
 import Switch.switch_display.etherchannel_display as etherchannel_display
 import Switch.switch_display.LLDP_display as LLDP_display
 import Switch.switch_display.NTP_display as NTP_display
+import Switch.switch_display.hover_info_display as hover_info_display
 
 import Switch.switch_configure.conf_mac as conf_mac
 import Switch.switch_configure.interface_config as interface_config
@@ -23,7 +24,7 @@ import Switch.switch_configure.NTP_config as NTP_config
 @switch_main.route("/switch")
 def home():
     if('user' in session):
-        return render_template("switch_main.html")
+        return render_template("switch_main.html",hoverData=hover_info_display.display_info_on_hover())
     else:
         return redirect(url_for("main"))
 

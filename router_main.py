@@ -14,6 +14,7 @@ import Router.router_display.LLDP_display as LLDP_display
 import Router.router_display.NTP_display as NTP_display
 import Router.router_display.DHCP_display as DHCP_display
 import Router.router_display.DNS_display as DNS_display
+import Router.router_display.hover_info_display as hover_info_display
 
 import Router.router_configure.ip_routes as ip_routes
 import Router.router_configure.interface_config as interface_config
@@ -30,7 +31,7 @@ import Router.router_save_logout.router_save_and_logout as router_save_and_logou
 @router_main.route("/router")
 def home():
     if('user' in session):
-        return render_template("router_main.html")
+        return render_template("router_main.html",hoverData=hover_info_display.display_info_on_hover())
     else:
         return redirect(url_for("main"))
 

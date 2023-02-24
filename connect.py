@@ -27,27 +27,33 @@ def login():
     #email = request.form['email']
     hardware = request.form['hardware']
 
-    cisco_device = {'device_type':'cisco_ios', 'ip':ipaddress, 'username':username, 'password':password}
-    #session['user'] = cisco_device #remove this line after development
-    try:
-        ssh_connect = ConnectHandler(**cisco_device) 
+    if(ipaddress and username and password):
 
-        current_app.config["ssh_connect"] = ssh_connect
-    except NetmikoTimeoutException:
-        flash("Device not reachable")
-        return(render_template("login.html"))
-    except NetmikoAuthenticationException:
-        flash("Authentication Failure")
-        return(render_template("login.html"))
-    except SSHException:
-        flash("Make sure SSH is enabled")
-        return(render_template("login.html"))
+        cisco_device = {'device_type':'cisco_ios', 'ip':ipaddress, 'username':username, 'password':password}
+        #session['user'] = cisco_device #remove this line after development
+        try:
+            ssh_connect = ConnectHandler(**cisco_device) 
+
+            current_app.config["ssh_connect"] = ssh_connect
+        except NetmikoTimeoutException:
+            flash("Device not reachable")
+            return(render_template("login.html"))
+        except NetmikoAuthenticationException:
+            flash("Authentication Failure")
+            return(render_template("login.html"))
+        except SSHException:
+            flash("Make sure SSH is enabled")
+            return(render_template("login.html"))
+        else:
+            session['user'] = cisco_device
+            if(hardware == "router"):
+                return(redirect('/router'))
+            elif(hardware == "switch"):
+                return(redirect('/switch'))
+            
     else:
-        session['user'] = cisco_device
-        if(hardware == "router"):
-            return(redirect('/router'))
-        elif(hardware == "switch"):
-            return(redirect('/switch'))
+        flash("Please fill out all fields")
+        return(render_template("login.html"))
 
 
 def get_ssh_connect():
