@@ -16,7 +16,7 @@ def display_interface_info():
 def display_interfaces_description():
     from connect import get_ssh_connect
     ssh_connect = get_ssh_connect()
-    return ssh_connect.send_command('show interfaces description column')
+    return ssh_connect.send_command('show interfaces description')
 
 def display_interface_status():
     from connect import get_ssh_connect
