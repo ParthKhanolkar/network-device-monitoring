@@ -1,14 +1,18 @@
-from connect import *
-def add_static_route():
+from netmiko import ConnectHandler
+def add_static_route(dest_ip,subnet_mask,next_hop):
+    from connect import get_ssh_connect
+    ssh_connect = get_ssh_connect()
     ssh_connect.enable()
-    dest_ip = input("Enter the destination ipv4 address: ")
-    subnet_mask = input("Enter the subnet mask of the destination ipv4 address: ")
-    next_hop = input("Enter the next-hop ipv4 address: ")
+    #dest_ip = input("Enter the destination ipv4 address: ")
+    #subnet_mask = input("Enter the subnet mask of the destination ipv4 address: ")
+    #next_hop = input("Enter the next-hop ipv4 address: ")
     ssh_connect.send_config_set(['ip route ' + dest_ip + ' ' + subnet_mask + ' ' + next_hop])
-    return('Static Route Added!')
+    #return('Static Route Added!')
 
 
 def add_rip_route():
+    from connect import get_ssh_connect
+    ssh_connect = get_ssh_connect()
     ssh_connect.enable()
     auto_summary = input("Should automatic network summarization be enabled? (yes or no): ")
     if (auto_summary == "yes"):
@@ -21,6 +25,8 @@ def add_rip_route():
     #Choose passive interfaces as well
 
 def add_eigrp_route():
+    from connect import get_ssh_connect
+    ssh_connect = get_ssh_connect()
     ssh_connect.enable()
     as_number = input("Enter the EIGRP Autonomous system number: ")
     auto_summary = input("Should automatic network summarization be enabled? (yes or no): ")
@@ -34,6 +40,8 @@ def add_eigrp_route():
     return('RIP Route Added!')
 
 def add_ospf_route():
+    from connect import get_ssh_connect
+    ssh_connect = get_ssh_connect()
     ssh_connect.enable()
     process_id = input("Enter the OSPF process ID: ")
     network_add = input("Enter the network address of interface on which EIGRP will activate: ")
@@ -43,6 +51,8 @@ def add_ospf_route():
     return('OSPF Route Added!')
 
 def ospf_on_interface():
+    from connect import get_ssh_connect
+    ssh_connect = get_ssh_connect()
     ssh_connect.enable()
     ospf_int = input("Enter the interface you want OSPF to be activated on: ")
     process_id = input("Enter the OSPF process ID: ")

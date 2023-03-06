@@ -203,7 +203,7 @@ nav .profile-details i{
   display: flex;
   flex-direction: column;
   padding-left: 5px;
-  width: 75%;
+  width: 50%;
 }
 
 .display-area .column2{
@@ -310,4 +310,11 @@ nav .profile-details i{
   padding: 10px 0px 10px 0px;
   background-color: #66b0ff;
   
+}
+
+.white-space
+{
+  height: 500px;
+  overflow: scroll;
+
 }

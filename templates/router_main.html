@@ -92,7 +92,150 @@
 {% block configurelist %}
 {% endblock %}
 {% block whitespace %}
-{{displayvar}}
+<div class="configure-forms" id="ip-route-config">
+    <form id="router-static-route-conf" action="/routerStaticRouteConf" method="post">
+        <fieldset>
+          <legend>
+            Static
+          </legend>
+          <div>
+            <label for="dest_ip">
+              Destination IP address :
+              <input type="text" name="dest_ip">
+            </label>
+          </div>
+          <div>
+            <label for="subnet_mask">
+              Subnet Mask :
+              <input type="text" name="subnet_mask" >
+            </label>
+          </div>
+          <div>
+            <label for="next_hop">
+              Next Hop IP :
+              <input type="text" name="next_hop">
+            </label>
+          </div>
+          <div>
+            <input type="submit" value="Add Route">
+          </div>
+        </fieldset>
+      </form>
+      
+      <form>
+        <fieldset>
+          <legend>
+            RIP
+          </legend>
+          <lebel for="auto_summary">
+            Enable Auto Summerization:
+            <input type="radio" name='auto_summary' value='yes'>
+            Yes
+            <input type="radio" name="auto_summary" value="no">
+            No
+          </lebel>
+          <div>
+            <label for="rip_interface">
+              Network Address for RIP Interface:
+            </label>
+            <input type="text" name="network_add" id="rip_interface">
+          </div>
+          <input type="submit" value="Add Route">
+        </fieldset>
+      </form>
+      
+      <form action="">
+        <fieldset>
+          <legend>
+            EIGRP
+          </legend>
+          <div>
+            <label for="as_number">
+              EIGRP Autonomous System Number:
+              <input type="text" id="as_number">
+            </label>
+          </div>
+          <div>
+            <label for="auto_summary">
+              Enable Auto Summerization:
+              <input type="radio" value="yes">
+              Yes
+              <input type="radio" value="no">
+              No
+            </label>
+          </div>
+          <div>
+            <label for="network_add">
+              Network Address for EIGRP:
+              <input type="text" id="network_add">
+            </label>
+          </div>
+          <div>
+            <label for="wildcard_mask">
+              Wildcard mask for EIGRP:
+              <input type="text" id="wildcard_mask">
+            </label>
+          </div>
+          <div>
+            <input type="submit" value="Add Route">
+          </div>
+        </fieldset>
+      </form>
+      
+      <form action="">
+        <div>
+          <fieldset>
+            <legend>
+              OSPF
+            </legend>
+            <div>
+              <label for="process_id">
+                OSPF Process ID:
+                <input type="text" id="process_id">
+              </label>
+            </div>
+            <div>
+              <label for="network_add"></label>
+              Network Address:
+              <input type="text" id="network_add">
+            </div>
+            <div>
+              <label for="wildcard_mask"></label>
+              Wildcard Mask:
+              <input type="text" id="wildcard_mask">
+            </div>
+            <div>
+              <label for="ospf_area">
+                OSPF Area:
+                <input type="text" id="ospf_area">
+              </label>
+            </div>
+            <div><input type="submit" value="Add Route"></div>
+          </fieldset>
+          <fieldset>
+            <div>
+              <label for="ospf_int">
+                OSPF Interface:
+                <input type="text" id="ospf_int">
+              </label>
+            </div>
+            <div>
+              <label for="process_id">
+                OSPF Process ID:
+                <input type="text" id="process_id">
+              </label>
+            </div>
+            <div>
+              <label for="ospf_area"></label>
+              OSPF Area:
+              <input type="text" id="ospf_area">
+            </div>
+            <div><input type="submit" value="Add Route"></div>
+          </fieldset>
+        </div>
+      </form>
+</div>
+
 {% endblock %}
 {% block additionaljs %}
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/router_op.js') }}"> </script>

@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session, json, jsonify
+from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session, json, jsonify, Response
 
 router_main = Blueprint("router_main", __name__, static_folder="static", template_folder="templates")
 
@@ -35,6 +35,7 @@ def home():
     else:
         return redirect(url_for("main"))
 
+#Display------------------------------------------------------------------------------------------
 #configuration_display
 @router_main.route("/routerRunConf")
 def disp_router_run_conf():
@@ -161,6 +162,19 @@ def disp_router_dns_hosts():
 @router_main.route("/routerDisplayIpDhcpBinding")
 def disp_router_ip_dhcp_binding():
     return render_template("display_field.html",displayFieldVar=DHCP_display.dhcp_binding_display())
+
+
+#Configure------------------------------------------------------------------------------------------
+@router_main.route('/routerStaticRouteConf', methods=['GET','POST'])
+def conf_router_static_route():
+    if request.method == 'POST':
+        dest_ip = request.form.get("dest_ip")
+        subnet_mask = request.form.get("subnet_mask")
+        next_hop = request.form.get("subnet_mask")
+        print('ip route ' + dest_ip + ' ' + subnet_mask + ' ' + next_hop)
+        #ip_routes.add_static_route(dest_ip,subnet_mask,next_hop)
+        return Response(status=204)
+
 
 
 
