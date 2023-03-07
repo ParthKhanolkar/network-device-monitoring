@@ -20,6 +20,7 @@ import Switch.switch_configure.etherchannel_config as etherchannel_config
 import Switch.switch_configure.LLDP_config as LLDP_config
 import Switch.switch_configure.NTP_config as NTP_config
 
+import Switch.switch_save_logout.switch_save_and_logout as switch_save_and_logout
 
 @switch_main.route("/switch")
 def home():
@@ -156,3 +157,16 @@ def disp_SW_NTP_status():
 @switch_main.route("/switchNtpAssociations")
 def disp_SW_NTP_associations():
     return render_template("display_field.html",displayFieldVar=NTP_display.display_ntp_associations())
+
+
+@switch_main.route('/routerSave')
+def save():
+    switch_save_and_logout.switch_save()
+        
+
+@switch_main.route('/routerLogout')
+def logout():
+    #delete session info
+    switch_save_and_logout.switch_logout()
+    session.pop('user', None)
+    return redirect(url_for("main"))

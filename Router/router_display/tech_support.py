@@ -38,4 +38,4 @@ def show_flash_memory():
     from connect import get_ssh_connect
     ssh_connect = get_ssh_connect()
     ssh_connect.enable()
-    return ssh_connect.send_command('show flash')
+    return ssh_connect.send_config_set('show flash')

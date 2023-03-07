@@ -29,7 +29,7 @@ def login():
 
     if(ipaddress and username and password):
 
-        cisco_device = {'device_type':'cisco_ios', 'ip':ipaddress, 'username':username, 'password':password}
+        cisco_device = {'device_type':'cisco_ios', 'ip':ipaddress, 'username':username, 'password':password, 'secret':password}
         #session['user'] = cisco_device #remove this line after development
         try:
             ssh_connect = ConnectHandler(**cisco_device) 

@@ -170,9 +170,9 @@ def conf_router_static_route():
     if request.method == 'POST':
         dest_ip = request.form.get("dest_ip")
         subnet_mask = request.form.get("subnet_mask")
-        next_hop = request.form.get("subnet_mask")
-        print('ip route ' + dest_ip + ' ' + subnet_mask + ' ' + next_hop)
-        #ip_routes.add_static_route(dest_ip,subnet_mask,next_hop)
+        next_hop = request.form.get("next_hop")
+        #print('ip route ' + dest_ip + ' ' + subnet_mask + ' ' + next_hop)
+        ip_routes.add_static_route(dest_ip,subnet_mask,next_hop)
         return Response(status=204)
 
 
@@ -180,7 +180,6 @@ def conf_router_static_route():
 
 @router_main.route('/routerSave')
 def save():
-    #delete session info
     router_save_and_logout.router_save()
         
 
