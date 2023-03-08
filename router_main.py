@@ -165,6 +165,8 @@ def disp_router_ip_dhcp_binding():
 
 
 #Configure------------------------------------------------------------------------------------------
+
+#IP routes
 @router_main.route('/routerStaticRouteConf', methods=['GET','POST'])
 def conf_router_static_route():
     if request.method == 'POST':
@@ -175,6 +177,42 @@ def conf_router_static_route():
         ip_routes.add_static_route(dest_ip,subnet_mask,next_hop)
         return Response(status=204)
 
+@router_main.route('/routerRipRouteConf', methods=['GET','POST'])
+def conf_router_rip_route():
+    if request.method == 'POST':
+        auto_summary = request.form.get("auto_summary")
+        network_add = request.form.get("network_add")
+        ip_routes.add_rip_route(auto_summary,network_add)
+        return Response(status=204)
+    
+@router_main.route('/routerEigrpRouteConf', methods=['GET','POST'])
+def conf_router_eigrp_route():
+    if request.method == 'POST':
+        as_number = request.form.get("as_number")
+        auto_summary = request.form.get("auto_summary")
+        network_add = request.form.get("network_add")
+        wildcard_mask = request.form.get("wildcard_mask")
+        ip_routes.add_eigrp_route(as_number,auto_summary,network_add,wildcard_mask)
+        return Response(status=204)
+    
+@router_main.route('/routerOspfNetworkRouteConf', methods=['GET','POST'])
+def conf_router_rip_route():
+    if request.method == 'POST':
+        process_id = request.form.get("process_id")
+        network_add = request.form.get("network_add")
+        wildcard_mask = request.form.get("wildcard_mask")
+        ospf_area = request.form.get("ospf_area")
+        ip_routes.add_ospf_route(process_id,network_add,wildcard_mask,ospf_area)
+        return Response(status=204)
+    
+@router_main.route('/routerOspfIntRouteConf', methods=['GET','POST'])
+def conf_router_rip_route():
+    if request.method == 'POST':
+        ospf_int = request.form.get("ospf_int")
+        process_id = request.form.get("process_id")
+        ospf_area = request.form.get("ospf_area")
+        ip_routes.ospf_on_interface(ospf_int,process_id,ospf_area)
+        return Response(status=204)
 
 
 

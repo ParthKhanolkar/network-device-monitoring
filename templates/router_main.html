@@ -90,9 +90,10 @@
 
 {% endblock %}
 {% block configurelist %}
+<button onclick="javascript:invisible(ipRouteConfig)">Configure IP routes</button>
 {% endblock %}
 {% block whitespace %}
-<div class="configure-forms" id="ip-route-config">
+<div class="configure-forms" id="ipRouteConfig" style="display: none;">
     <form id="router-static-route-conf" action="/routerStaticRouteConf" method="post">
         <fieldset>
           <legend>
@@ -122,14 +123,14 @@
         </fieldset>
       </form>
       
-      <form>
+      <form id="router-rip-route-conf" action="/routerRipRouteConf" method="post">
         <fieldset>
           <legend>
             RIP
           </legend>
           <lebel for="auto_summary">
             Enable Auto Summerization:
-            <input type="radio" name='auto_summary' value='yes'>
+            <input type="radio" name="auto_summary" value="yes">
             Yes
             <input type="radio" name="auto_summary" value="no">
             No
@@ -144,7 +145,7 @@
         </fieldset>
       </form>
       
-      <form action="">
+      <form id="router-eigrp-route-conf" action="/routerEigrpRouteConf" method="post">
         <fieldset>
           <legend>
             EIGRP
@@ -152,28 +153,28 @@
           <div>
             <label for="as_number">
               EIGRP Autonomous System Number:
-              <input type="text" id="as_number">
+              <input type="text" name="as_number">
             </label>
           </div>
           <div>
             <label for="auto_summary">
               Enable Auto Summerization:
-              <input type="radio" value="yes">
+              <input type="radio" name="auto_summary" value="yes">
               Yes
-              <input type="radio" value="no">
+              <input type="radio" name="auto_summary" value="no">
               No
             </label>
           </div>
           <div>
             <label for="network_add">
               Network Address for EIGRP:
-              <input type="text" id="network_add">
+              <input type="text" name="network_add">
             </label>
           </div>
           <div>
             <label for="wildcard_mask">
               Wildcard mask for EIGRP:
-              <input type="text" id="wildcard_mask">
+              <input type="text" name="wildcard_mask">
             </label>
           </div>
           <div>
@@ -182,7 +183,7 @@
         </fieldset>
       </form>
       
-      <form action="">
+      <form id="router-ospf-network-route-conf" action="/routerOspfNetworkRouteConf" method="post">
         <div>
           <fieldset>
             <legend>
@@ -191,44 +192,46 @@
             <div>
               <label for="process_id">
                 OSPF Process ID:
-                <input type="text" id="process_id">
+                <input type="text" name="process_id">
               </label>
             </div>
             <div>
               <label for="network_add"></label>
               Network Address:
-              <input type="text" id="network_add">
+              <input type="text" name="network_add">
             </div>
             <div>
               <label for="wildcard_mask"></label>
               Wildcard Mask:
-              <input type="text" id="wildcard_mask">
+              <input type="text" name="wildcard_mask">
             </div>
             <div>
               <label for="ospf_area">
                 OSPF Area:
-                <input type="text" id="ospf_area">
+                <input type="text" name="ospf_area">
               </label>
             </div>
             <div><input type="submit" value="Add Route"></div>
           </fieldset>
+        </form>
+        <form id="router-ospf-int-route-conf" action="/routerOspfIntRouteConf" method="post">
           <fieldset>
             <div>
               <label for="ospf_int">
                 OSPF Interface:
-                <input type="text" id="ospf_int">
+                <input type="text" name="ospf_int">
               </label>
             </div>
             <div>
               <label for="process_id">
                 OSPF Process ID:
-                <input type="text" id="process_id">
+                <input type="text" name="process_id">
               </label>
             </div>
             <div>
               <label for="ospf_area"></label>
               OSPF Area:
-              <input type="text" id="ospf_area">
+              <input type="text" name="ospf_area">
             </div>
             <div><input type="submit" value="Add Route"></div>
           </fieldset>
