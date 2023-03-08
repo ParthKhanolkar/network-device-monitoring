@@ -196,7 +196,7 @@ def conf_router_eigrp_route():
         return Response(status=204)
     
 @router_main.route('/routerOspfNetworkRouteConf', methods=['GET','POST'])
-def conf_router_rip_route():
+def conf_router_ospf_network_route():
     if request.method == 'POST':
         process_id = request.form.get("process_id")
         network_add = request.form.get("network_add")
@@ -206,11 +206,12 @@ def conf_router_rip_route():
         return Response(status=204)
     
 @router_main.route('/routerOspfIntRouteConf', methods=['GET','POST'])
-def conf_router_rip_route():
+def conf_router_ospf_int_route():
     if request.method == 'POST':
         ospf_int = request.form.get("ospf_int")
         process_id = request.form.get("process_id")
         ospf_area = request.form.get("ospf_area")
+        print(['interface ' + ospf_int, 'ip ospf ' + process_id + ' ' + 'area ' + ospf_area])
         ip_routes.ospf_on_interface(ospf_int,process_id,ospf_area)
         return Response(status=204)
 

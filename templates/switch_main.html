@@ -1,7 +1,18 @@
 {% extends "dashboard.html" %}
 {% block title %}Switch{% endblock %}
 {% block devicesymbol %}<img src="{{ url_for('static', filename='images/switch.png') }}" width="200px" height="180px" title="{{hoverData}}">{% endblock %}
-
+{% block savebutton %}
+<a href="switchSave">
+    <i class='bx bxs-save'></i>
+    <span class="links_name">Save</span>
+  </a>
+{% endblock %}
+{% block logoutbutton %}
+<a href="switchLogout">
+    <i class='bx bx-log-out'></i>
+    <span class="links_name">Log out</span>
+  </a>
+{% endblock %}
 {% block displaylist %}
 <p>ARP Display
     <ul>
@@ -11,7 +22,7 @@
 <p>Configuration Display
     <ul>
     <li><a href="switchRunConf" target="_blank">Running Configuration</a></li>
-    <li><a href="switchStartConf" target="_blank">Stratup Configuration</a></li>
+    <li><a href="switchStartConf" target="_blank">Startup Configuration</a></li>
     </ul>
 </p>
 <p>Interfaces Display
@@ -61,6 +72,11 @@
     <li><a href="switchNtpCalendar" target="_blank">Switch Calendar</a></li>
     <li><a href="switchNtpStatus" target="_blank">NTP Status</a></li>
     <li><a href="switchNtpAssociations" target="_blank">NTP Associations</a></li>
+    </ul>
+</p>
+<p>Syslog
+    <ul>
+    <li><a href="switchDisplaySyslog" target="_blank">Syslog</a></li>
     </ul>
 </p>
 {% endblock %}

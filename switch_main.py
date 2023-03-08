@@ -12,6 +12,7 @@ import Switch.switch_display.etherchannel_display as etherchannel_display
 import Switch.switch_display.LLDP_display as LLDP_display
 import Switch.switch_display.NTP_display as NTP_display
 import Switch.switch_display.hover_info_display as hover_info_display
+import Switch.switch_display.syslog as syslog
 
 import Switch.switch_configure.conf_mac as conf_mac
 import Switch.switch_configure.interface_config as interface_config
@@ -159,12 +160,17 @@ def disp_SW_NTP_associations():
     return render_template("display_field.html",displayFieldVar=NTP_display.display_ntp_associations())
 
 
-@switch_main.route('/routerSave')
+@switch_main.route('/switchDisplaySyslog')
+def disp_switch_syslog():
+    return render_template("display_field.html",displayFieldVar=syslog.syslog_display())
+
+
+@switch_main.route('/switchSave')
 def save():
     switch_save_and_logout.switch_save()
         
 
-@switch_main.route('/routerLogout')
+@switch_main.route('/switchLogout')
 def logout():
     #delete session info
     switch_save_and_logout.switch_logout()

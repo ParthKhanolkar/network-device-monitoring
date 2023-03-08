@@ -299,7 +299,7 @@ nav .profile-details i{
 
 
 .scroll-list {
-  height: 35%;
+  height: 27%;
   width: 450px;
   overflow: scroll; /* This is the key!! */
   border: 1px #aabbcc solid;
@@ -312,6 +312,13 @@ nav .profile-details i{
   
 }
 
+.scroll-list button{
+  width: 100%;
+  height: 40px;
+  font-size: 20px;
+  background-color: #66b0ff;
+  border-color: #66b0ff;
+}
 .white-space
 {
   height: 500px;
