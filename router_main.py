@@ -31,7 +31,7 @@ import Router.router_save_logout.router_save_and_logout as router_save_and_logou
 @router_main.route("/router")
 def home():
     if('user' in session):
-        return render_template("router_main.html",hoverData=hover_info_display.display_info_on_hover())
+        return render_template("router_main.html",hoverData=hover_info_display.display_info_on_hover(), deviceInterfaces=interfaces_display.grab_interfaces())
     else:
         return redirect(url_for("main"))
 
@@ -211,15 +211,26 @@ def conf_router_ospf_int_route():
         ospf_int = request.form.get("ospf_int")
         process_id = request.form.get("process_id")
         ospf_area = request.form.get("ospf_area")
-        print(['interface ' + ospf_int, 'ip ospf ' + process_id + ' ' + 'area ' + ospf_area])
+        #print(['interface ' + ospf_int, 'ip ospf ' + process_id + ' ' + 'area ' + ospf_area])
         ip_routes.ospf_on_interface(ospf_int,process_id,ospf_area)
         return Response(status=204)
 
 
+#Interface Configuration
+@router_main.route('/routerConfIntLayerThree', methods=['GET','POST'])
+def conf_router_int_layer_3():
+    if request.method == 'POST':
+        int_name = request.form.get("int_name")
+        int_ip = request.form.get("int_ip")
+        int_sub_mask = request.form.get("int_sub_mask")
+        int_description = request.form.get("int_description")
+        interface_config.configure_interface_layer_3(int_name,int_ip,int_sub_mask,int_description)
+        return Response(status=204)
 
 @router_main.route('/routerSave')
 def save():
     router_save_and_logout.router_save()
+    return Response(status=204)
         
 
 @router_main.route('/routerLogout')

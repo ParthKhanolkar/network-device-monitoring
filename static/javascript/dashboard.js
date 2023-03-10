@@ -22,5 +22,4 @@ for (var i = 0, max = configureForm.length; i < max; i++) {
    configureForm[i].style.display = "none";
 }
 formID.style.display="block";
-console.log("Done");
 }

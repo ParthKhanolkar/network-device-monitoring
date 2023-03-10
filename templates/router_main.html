@@ -91,6 +91,7 @@
 {% endblock %}
 {% block configurelist %}
 <button onclick="javascript:invisible(ipRouteConfig)">Configure IP routes</button>
+<button onclick="javascript:invisible(routerInterfaceConfig)">Configure Device Interfaces</button>
 {% endblock %}
 {% block whitespace %}
 <div class="configure-forms" id="ipRouteConfig" style="display: none;">
@@ -237,6 +238,37 @@
           </fieldset>
         </div>
       </form>
+</div>
+<div class="configure-forms" id="routerInterfaceConfig" style="display: none;">
+  <form id="configure-ip-layer-3" action="/routerConfIntLayerThree" method="post">
+    <fieldset>
+      <legend>Configure Interface Layer 3</legend>
+      <div>
+        <label for="int_name">Enter Interface: </label>
+        <select name="int_name">
+          <option value="" disabled selected hidden>Please choose Interface</option>
+          {% for interface in deviceInterfaces %}
+              <option value="{{ interface }}">{{ interface }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="int_ip">IP Address: </label>
+        <input type="text" name="int_ip">
+      </div>
+      <div>
+        <label for="int_sub_mask">Subnet Mask: </label>
+        <input type="text" name="int_sub_mask">
+      </div>
+  
+      <div>
+        <label for="int_description">Enter description: </label>
+        <br>
+        <textarea name="int_description" cols="30" rows="10"></textarea>
+      </div>
+      <div><input type="submit" value="Configure"></div>
+    </fieldset>
+  </form>
 </div>
 
 {% endblock %}
