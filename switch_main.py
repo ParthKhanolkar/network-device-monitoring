@@ -26,7 +26,7 @@ import Switch.switch_save_logout.switch_save_and_logout as switch_save_and_logou
 @switch_main.route("/switch")
 def home():
     if('user' in session):
-        return render_template("switch_main.html",hoverData=hover_info_display.display_info_on_hover())
+        return render_template("switch_main.html",hoverData=hover_info_display.display_info_on_hover(), deviceInterfaces=interfaces_display.grab_interfaces())
     else:
         return redirect(url_for("main"))
 
@@ -51,7 +51,7 @@ def disp_switch_start_conf():
     return render_template("display_field.html",displayFieldVar=configuration_display.show_startup_configuration())
 
 #display MAC
-@switch_main.route("/switchStartConf")
+@switch_main.route("/switchMacAddressTable")
 def disp_MAC_table():
     return render_template("display_field.html",displayFieldVar=dis_mac.display_mac_address_table())
 
@@ -165,9 +165,86 @@ def disp_switch_syslog():
     return render_template("display_field.html",displayFieldVar=syslog.syslog_display())
 
 
+#Configure------------------------------------------------------------------------------------------
+
+#MAC address Config
+@switch_main.route('/clearMacAddressTable', methods=['GET','POST'])
+def clear_MAC_address_table():
+    if request.method == 'POST':
+        conf_mac.clear_mac_address_table()
+        return Response(status=204)
+
+
+@switch_main.route('/clearSpecificMacAddress', methods=['GET','POST'])
+def clear_specific_MAC_address():
+    if request.method == 'POST':
+        mac_input = request.form.get("mac_input")
+        conf_mac.clear_specific_mac_address(mac_input)
+        return Response(status=204)
+    
+
+@switch_main.route('/clearMacInterface', methods=['GET','POST'])
+def clear_specific_MAC_interface():
+    if request.method == 'POST':
+        interface_input = request.form.get("interface_input")
+        conf_mac.clear_specific_mac_interface(interface_input)
+        return Response(status=204)
+    
+#Switch interface layer 2
+@switch_main.route('/switchIntConfigLayerTwo', methods=['GET','POST'])
+def switch_interface_config_layer2():
+    if request.method == 'POST':
+        int_name = request.form.get("int_name")
+        int_speed = request.form.get("int_speed")
+        int_duplex = request.form.get("int_duplex")
+        int_description = request.form.get("int_description")
+        print('interface '+ int_name , 'no negotiation auto', 'speed ' + int_speed , 'duplex ' + int_duplex , 'description ' + int_description)
+        #interface_config.configure_interface_layer_2(int_name, int_speed, int_duplex, int_description)
+        return Response(status=204)
+
+
+
+#LLDP config
+@switch_main.route('/switchLldpGlobalEnable', methods=['GET','POST'])
+def switch_lldp_global_enable():
+    if request.method == 'POST':
+        LLDP_config.LLDP_global_enable()
+        return Response(status=204)
+    
+@switch_main.route('/switchLldpIntEnable', methods=['GET','POST'])
+def switch_lldp_int_enable():
+    if request.method == 'POST':
+        lldp_interface = request.form.get("lldp_interface")
+        LLDP_config.LLDP_interface_enable(lldp_interface)
+        return Response(status=204)
+    
+@switch_main.route('/switchLldpTimerConfig', methods=['GET','POST'])
+def switch_lldp_timer_config():
+    if request.method == 'POST':
+        timer_time = request.form.get("timer_time")
+        LLDP_config.lldp_timer_config(timer_time)
+        return Response(status=204)
+    
+@switch_main.route('/switchLldpHoldtimeConfig', methods=['GET','POST'])
+def switch_lldp_holdtime_config():
+    if request.method == 'POST':
+        holdtime_time = request.form.get("holdtime_time")
+        LLDP_config.lldp_holdtime_config(holdtime_time)
+        return Response(status=204)
+    
+@switch_main.route('/switchLldpReinitConfig', methods=['GET','POST'])
+def switch_lldp_reinit_config():
+    if request.method == 'POST':
+        reinit_time = request.form.get("reinit_time")
+        LLDP_config.lldp_reinit_config(reinit_time)
+        return Response(status=204)
+
+
+
 @switch_main.route('/switchSave')
 def save():
     switch_save_and_logout.switch_save()
+    return Response(status=204)
         
 
 @switch_main.route('/switchLogout')

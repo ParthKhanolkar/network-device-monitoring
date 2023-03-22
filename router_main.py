@@ -227,6 +227,41 @@ def conf_router_int_layer_3():
         interface_config.configure_interface_layer_3(int_name,int_ip,int_sub_mask,int_description)
         return Response(status=204)
 
+#LLDP configuration
+@router_main.route('/routerLldpGlobalEnable', methods=['GET','POST'])
+def router_lldp_global_enable():
+    if request.method == 'POST':
+        LLDP_config.LLDP_global_enable()
+        return Response(status=204)
+    
+@router_main.route('/routerLldpIntEnable', methods=['GET','POST'])
+def router_lldp_int_enable():
+    if request.method == 'POST':
+        lldp_interface = request.form.get("lldp_interface")
+        LLDP_config.LLDP_interface_enable(lldp_interface)
+        return Response(status=204)
+    
+@router_main.route('/routerLldpTimerConfig', methods=['GET','POST'])
+def router_lldp_timer_config():
+    if request.method == 'POST':
+        timer_time = request.form.get("timer_time")
+        LLDP_config.lldp_timer_config(timer_time)
+        return Response(status=204)
+    
+@router_main.route('/routerLldpHoldtimeConfig', methods=['GET','POST'])
+def router_lldp_holdtime_config():
+    if request.method == 'POST':
+        holdtime_time = request.form.get("holdtime_time")
+        LLDP_config.lldp_holdtime_config(holdtime_time)
+        return Response(status=204)
+    
+@router_main.route('/routerLldpReinitConfig', methods=['GET','POST'])
+def router_lldp_reinit_config():
+    if request.method == 'POST':
+        reinit_time = request.form.get("reinit_time")
+        LLDP_config.lldp_reinit_config(reinit_time)
+        return Response(status=204)
+
 @router_main.route('/routerSave')
 def save():
     router_save_and_logout.router_save()

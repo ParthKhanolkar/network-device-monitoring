@@ -14,6 +14,11 @@
   </a>
 {% endblock %}
 {% block displaylist %}
+<p>MAC address Display
+  <ul>
+  <li><a href="switchMacAddressTable" target="_blank">MAC address Table</a></li>
+  </ul>
+</p>
 <p>ARP Display
     <ul>
     <li><a href="switchArpTable" target="_blank">ARP Table</a></li>
@@ -81,9 +86,166 @@
 </p>
 {% endblock %}
 {% block configurelist %}
+<button onclick="javascript:invisible(switchMacConfig)">Configure MAC address table</button>
+<button onclick="javascript:invisible(switchIntConfigLayerTwo)">Configure switch interface</button>
+<button onclick="javascript:invisible(switchLldpConfig)">Configure switch LLDP</button>
 {% endblock %}
 {% block whitespace %}
-{{displayvar}}
+<div class="configure-forms" id="switchMacConfig" style="display: none;">
+    <form id="clear-mac-add-table" action="/clearMacAddressTable" method="post">
+        <fieldset>
+          <legend>Clear Mac Address Table</legend>
+          <div>
+            <label>Clear Mac Address table: </label>
+            <input type="submit" value="Clear">
+          </div>
+        </fieldset>
+      </form>
+      
+      <form id="clear-specific-mac-add" action="/clearSpecificMacAddress" method="post">
+        <fieldset>
+          <legend>Clear Specific Mac Address</legend>
+          <div>
+            <label for="mac_input">Enter Mac Address To Be Removed: </label>
+            <input type="text" name="mac_input">
+          </div>
+          <div>
+            <input type="submit" value="Clear">
+          </div>
+        </fieldset>
+      </form>
+      
+      <form id="clear-mac-int" action="/clearMacInterface" method="post">
+        <fieldset>
+          <legend>Clear Mac Interface</legend>
+          <div>
+            <label for="interface_input">Enter the interface:</label>
+            <input type="text" id="interface_input">
+            <select name="interface_input">
+              <option value="" disabled selected hidden>Please choose Interface</option>
+              {% for interface in deviceInterfaces %}
+                  <option value="{{ interface }}">{{ interface }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <input type="submit" value="Clear">
+          </div>
+        </fieldset>
+      </form>
+</div>
+
+<div>
+  <form class="configure-forms" id="switchIntConfigLayerTwo" style="display: none;">
+    <fieldset>
+      <legend>Configure Interface at Layer 2</legend>
+      <div>
+        <label for="int_name">Enter Interface name: </label>
+        <select name="int_name">
+          <option value="" disabled selected hidden>Please choose Interface</option>
+          {% for interface in deviceInterfaces %}
+              <option value="{{ interface }}">{{ interface }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="int_speed">Enter Speed of Interface: </label>
+        <input type="number" name="int_speed" placeholder="in mbps" min=0>
+      </div>
+      <div>
+        <label for="int_duplex">Enter Duplex Mode: </label>
+
+        <select name="int_duplex">
+          <option value="" disabled selected hidden>Please choose Duplex</option>
+              <option value="auto">auto</option>
+              <option value="full">full</option>
+              <option value="half">half</option>
+        </select>
+      </div>
+      <div>
+        <label for="int_description">Enter Interface Description: </label>
+        <textarea name="int_description" id="int_description" cols="30" rows="5" placeholder="Description"></textarea>
+      </div>
+      <div><input type="submit" value="Configure Interface"></div>
+    </fieldset>
+  </form>
+</div>
+
+
+
+<div class="configure-forms" id="switchLldpConfig" style="display: none;">
+    <form id="switch-lldp-global-enable" action="/switchLldpGlobalEnable" method="post">
+        <fieldset>
+          <legend>LLDP Gloabal Enable</legend>
+          <div>
+            <label>Enable LLDP Globally: </label>
+            <input type="submit" value="Enable">
+          </div>
+        </fieldset>
+      </form>
+      
+      <form id="switch-lldp-int-enable" action="switchLldpIntEnable" method="post">
+        <fieldset>
+          <legend>Enable LLDP Interface</legend>
+          <div>
+            <label for="lldp_interface">Enter Interface You Want to Enable LLDP On: </label>
+            <select name="lldp_interface">
+              <option value="" disabled selected hidden>Please choose Interface</option>
+              {% for interface in deviceInterfaces %}
+                  <option value="{{ interface }}">{{ interface }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <input type="submit" value="Enable">
+          </div>
+        </fieldset>
+      </form>
+      
+      <form id="switch-lldp-timer-config" action="switchLldpTimerConfig" method="post">
+        <fieldset>
+          <legend>Timer Config</legend>
+          <div>
+            <label for="timer_time">Enter LLDP Timer: </label>
+            <input type="text" name="timer_time" placeholder="in seconds">
+          </div>
+          <div>
+            <input type="submit" value="Configure">
+          </div>
+        </fieldset>
+      </form>
+      
+      <form action="switch-lldp-holdtime-config" action="switchLldpHoldtimeConfig" method="post">
+        <fieldset>
+          <legend>
+            Holdtime Config
+          </legend>
+          <div>
+            <label for="holdtime_time">Enter LLDP Holdtime: </label>
+            <input type="text" name="holdtime_time" placeholder="in seconds">
+          </div>
+          <div>
+            <input type="submit" value="Configure">
+          </div>
+        </fieldset>
+      </form>
+      
+      <form action="switch-lldp-reinit-config" action="switchLldpReinitConfig" method="post">
+        <fieldset>
+          <legend>
+            LLDP Re-Interface Time
+          </legend>
+          <div>
+            <label for="reinit_time">Enter LLDP timer: </label>
+            <input type="text" name="reinit_time" placeholder="in seconds">
+          </div>
+          <div>
+            <input type="submit" value="Configure">
+          </div>
+        </fieldset>
+      </form>
+  </div>
+
 {% endblock %}
 {% block additionaljs %}
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/switch_op.js') }}"> </script>

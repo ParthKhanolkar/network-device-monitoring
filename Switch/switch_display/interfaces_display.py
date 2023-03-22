@@ -1,6 +1,13 @@
 from netmiko import ConnectHandler
 #from connect import get_ssh_connect
-
+def grab_interfaces():
+    from connect import get_ssh_connect
+    ssh_connect = get_ssh_connect()
+    interface_dict = ssh_connect.send_command('show ip interface brief',use_textfsm=True)
+    interface_name_list = []
+    for i in range(0, len(interface_dict)):
+        interface_name_list.append(interface_dict[i]['intf'])
+    return interface_name_list
 #def grab_interfaces():
     
 def display_ip_interfaces():

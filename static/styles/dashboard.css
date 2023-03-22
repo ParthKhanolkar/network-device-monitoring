@@ -326,3 +326,34 @@ nav .profile-details i{
   overflow: scroll;
 
 }
+
+.configure-forms div {
+  display: block;
+  margin: 0.4rem;
+  padding: 0.4rem 0.4rem 0.4rem 0.4rem;
+}
+
+.configure-forms legend {
+  display: block;
+  margin: 0.4rem;
+  font-size: 1.5rem;
+  padding: 0 0.2rem 0 0.2rem;
+}
+
+.configure-forms form {
+  display: block;
+  margin: 0.4rem;
+}
+
+/* label {
+  display: flex;
+  align-items: center;
+} */
+
+.time {
+  width: 2rem;
+}
+
+.cal_time {
+  width: 2rem;
+}
