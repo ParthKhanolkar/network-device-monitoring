@@ -21,6 +21,8 @@ import Router.router_configure.interface_config as interface_config
 import Router.router_configure.LLDP_config as LLDP_config
 import Router.router_configure.NTP_config as NTP_config
 import Router.router_configure.security_configuration as security_configuration
+import Router.router_configure.DNS_config as DNS_config
+import Router.router_configure.DHCP_config as DHCP_config
 
 import Router.router_save_logout.router_save_and_logout as router_save_and_logout
 
@@ -261,6 +263,44 @@ def router_lldp_reinit_config():
         reinit_time = request.form.get("reinit_time")
         LLDP_config.lldp_reinit_config(reinit_time)
         return Response(status=204)
+    
+#DNS configuration
+@router_main.route('/routerAsDnsServerConfig', methods=['GET','POST'])
+def router_dns_server_config():
+    if request.method == 'POST':
+        DNS_config.config_router_ip_dns()
+        return Response(status=204)
+    
+@router_main.route('/addIpHostDnsConfig', methods=['GET','POST'])
+def ip_host_dns_config():
+    if request.method == 'POST':
+        dns_hostname = request.form.get("dns_hostname")
+        dns_ip = request.form.get("dns_ip")
+        DNS_config.dns_add_ip_host(dns_hostname, dns_ip)
+        return Response(status=204)
+    
+@router_main.route('/externalDnsServerConfig', methods=['GET','POST'])
+def router_external_dns_server_config():
+    if request.method == 'POST':
+        dns_server_ip = request.form.get("dns_server_ip")
+        DNS_config.ip_name_server(dns_server_ip)
+        return Response(status=204)
+    
+@router_main.route('/domainLookupDnsConfig', methods=['GET','POST'])
+def router_dns_query_config():
+    if request.method == 'POST':
+        DNS_config.perform_dns_queries()
+        return Response(status=204)
+    
+@router_main.route('/setDomainNameConfig', methods=['GET','POST'])
+def router_domain_name_config():
+    if request.method == 'POST':
+        domain_name = request.form.get("domain_name")
+        DNS_config.set_domain_name(domain_name)
+        return Response(status=204)
+
+
+
 
 @router_main.route('/routerSave')
 def save():

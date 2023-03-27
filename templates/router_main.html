@@ -93,6 +93,7 @@
 <button onclick="javascript:invisible(ipRouteConfig)">Configure IP routes</button>
 <button onclick="javascript:invisible(routerInterfaceConfig)">Configure Device Interfaces</button>
 <button onclick="javascript:invisible(routerLldpConfig)">Configure Router LLDP</button>
+<button onclick="javascript:invisible(routerDnsConfig)">Configure DNS</button>
 {% endblock %}
 {% block whitespace %}
 <div class="configure-forms" id="ipRouteConfig" style="display: none;">
@@ -320,7 +321,7 @@
       </fieldset>
     </form>
     
-    <form action="router-lldp-holdtime-config" action="/routerLldpHoldtimeConfig" method="post">
+    <form id="router-lldp-holdtime-config" action="/routerLldpHoldtimeConfig" method="post">
       <fieldset>
         <legend>
           Holdtime Config
@@ -335,7 +336,7 @@
       </fieldset>
     </form>
     
-    <form action="router-lldp-reinit-config" action="/routerLldpReinitConfig" method="post">
+    <form id="router-lldp-reinit-config" action="/routerLldpReinitConfig" method="post">
       <fieldset>
         <legend>
           LLDP Re-Interface Time
@@ -350,6 +351,79 @@
       </fieldset>
     </form>
 </div>
+<div class="configure-forms" id="routerDnsConfig" style="display: none;">
+  <form id="router-as-dns-server" action="routerAsDnsServerConfig" method="post">
+  <fieldset>
+    <legend>DNS Configuration</legend>
+    <div>
+      <label for="dns_server">Configure Router as DNS server:</label>
+      <br>
+    </div>
+    <div>
+      <input type="submit" value="Configure" id="dns_server">
+    </div>
+  </fieldset>
+</form>
+
+<form id="add-ip-jost-dns" action="addIpHostDnsConfig" method="post">
+  <fieldset>
+    <legend>
+      Add IP Host for DNS Hostname/IP mapping
+    </legend>
+    <div>
+      <label for="dns_hostname">Enter Hostname: </label>
+      <input type="text" id="dns_hostname" name="dns_hostname">
+    </div>
+    <div>
+      <label for="dns_ip">Enter IP: </label>
+      <input type="text" id="dns_ip" name="dns_ip">
+    </div>
+    <div>
+      <input type="submit" value="Add">
+    </div>
+  </fieldset>
+</form>
+
+<form id="external-dns-server" action="externalDnsServerConfig" method="post">
+  <fieldset>
+    <legend>Configure External IP Name Server</legend>
+    <p>In case Router does not have a IP mapped to the hostname</p>
+    <div>
+      <label for="dns_server_ip">Enter DNS Server IP: </label>
+      <input type="text" id="dns_server_ip" name="dns_server_ip">
+    </div>
+    <div>
+      <input type="submit" value="Add">
+    </div>
+  </fieldset>
+</form>
+
+<form id="domain-lookup-dns" action="domainLookupDnsConfig" method="post">
+  <fieldset>
+    <legend>Enable Router to perform DNS queries</legend>
+    <div>
+      <label for="domain_lookup">Perform Domain Lookup</label>
+    </div>
+    <div>
+      <input type="submit" value="Perform" id="domain_lookup">
+    </div>
+  </fieldset>
+</form>
+
+<form id="set-domain-name" action="setDomainNameConfig" method="post">
+  <fieldset>
+    <legend>Set Domain Name</legend>
+    <div>
+      <label for="domain_name">Enter Domain Name: </label>
+      <input type="text" id="domain_name" name="domain_name">
+    </div>
+    <div>
+      <input type="submit" value="Set">
+    </div>
+  </fieldset>
+</form>
+</div>
+
 
 {% endblock %}
 {% block additionaljs %}
