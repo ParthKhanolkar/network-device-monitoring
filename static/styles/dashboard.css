@@ -320,6 +320,11 @@ nav .profile-details i{
   border-color: #66b0ff;
   margin-bottom: 5px;
 }
+
+#configure
+{
+  height: 60%;
+}
 .white-space
 {
   height: 500px;

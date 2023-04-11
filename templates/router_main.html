@@ -94,6 +94,8 @@
 <button onclick="javascript:invisible(routerInterfaceConfig)">Configure Device Interfaces</button>
 <button onclick="javascript:invisible(routerLldpConfig)">Configure Router LLDP</button>
 <button onclick="javascript:invisible(routerDnsConfig)">Configure DNS</button>
+<button onclick="javascript:invisible(routerDhcpConfig)">Configure DHCP</button>
+<button onclick="javascript:invisible(routerNtpConfig)">Configure NTP</button>
 {% endblock %}
 {% block whitespace %}
 <div class="configure-forms" id="ipRouteConfig" style="display: none;">
@@ -277,6 +279,19 @@
       <div><input type="submit" value="Configure"></div>
     </fieldset>
   </form>
+
+  <form id="add-loopback-interface" action="/routerAddLoopbackInterface" method="post">
+    <fieldset>
+      <legend>Add Loopback Interface</legend>
+        <div>
+          <label for="loopback-int">Enter Loopback Interface Number</label>
+          <input type="number" name="loopb_number" min="0" max="2147483647">
+        </div>
+        <div><input type="submit" value="Add Interface"></div>
+      
+    </fieldset>
+
+  </form>
 </div>
 
 <div class="configure-forms" id="routerLldpConfig" style="display: none;">
@@ -352,7 +367,7 @@
     </form>
 </div>
 <div class="configure-forms" id="routerDnsConfig" style="display: none;">
-  <form id="router-as-dns-server" action="routerAsDnsServerConfig" method="post">
+  <form id="router-as-dns-server" action="/routerAsDnsServerConfig" method="post">
   <fieldset>
     <legend>DNS Configuration</legend>
     <div>
@@ -365,7 +380,7 @@
   </fieldset>
 </form>
 
-<form id="add-ip-jost-dns" action="addIpHostDnsConfig" method="post">
+<form id="add-ip-jost-dns" action="/addIpHostDnsConfig" method="post">
   <fieldset>
     <legend>
       Add IP Host for DNS Hostname/IP mapping
@@ -384,7 +399,7 @@
   </fieldset>
 </form>
 
-<form id="external-dns-server" action="externalDnsServerConfig" method="post">
+<form id="external-dns-server" action="/externalDnsServerConfig" method="post">
   <fieldset>
     <legend>Configure External IP Name Server</legend>
     <p>In case Router does not have a IP mapped to the hostname</p>
@@ -398,7 +413,7 @@
   </fieldset>
 </form>
 
-<form id="domain-lookup-dns" action="domainLookupDnsConfig" method="post">
+<form id="domain-lookup-dns" action="/domainLookupDnsConfig" method="post">
   <fieldset>
     <legend>Enable Router to perform DNS queries</legend>
     <div>
@@ -410,7 +425,7 @@
   </fieldset>
 </form>
 
-<form id="set-domain-name" action="setDomainNameConfig" method="post">
+<form id="set-domain-name" action="/setDomainNameConfig" method="post">
   <fieldset>
     <legend>Set Domain Name</legend>
     <div>
@@ -424,6 +439,370 @@
 </form>
 </div>
 
+<div class="configure-forms" id="routerDhcpConfig" style="display: none;">
+  <form id="dhcp-exclude-address" action="/dhcpExcludeAddress" method="post">
+    <fieldset>
+      <legend>
+        DHCP Exclude Address
+      </legend>
+      <div>
+        <label for="exclude_start_ip">
+          Enter starting IP of pool range:
+        </label>
+        <input type="text" name="exclude_start_ip" id="exclude_start_ip">
+      </div>
+      <div>
+        <label for="exclude_end_ip">
+          Enter ending IP of pool range:
+        </label>
+        <input type="text" name="exclude_end_ip" id="exclude_end_ip">
+      </div>
+      <div>
+        <input type="submit" value="Configure">
+      </div>
+    </fieldset>
+  </form>
+  <form id="add-dhcp-pool" action="/addDhcpPoolConfig" method="post">
+    <fieldset>
+      <legend>DHCP Pool</legend>
+      <div>
+        <label for="pool_name">Pool name: </label>
+        <input type="text" id="pool_name" name="pool_name">
+      </div>
+      <div>
+        <label for="pool_ip">Enter IP: </label>
+        <input type="text" id="pool_ip" name="pool_ip">
+      </div>
+      <div>
+        <label for="pool_submask">Enter Subnet Mask: </label>
+        <input type="text" id="pool_submask" name="pool_submask">
+      </div>
+      <div>
+        <label for="DNS_server">Enter DNS Server: </label>
+        <input type="text" id="DNS_server" name="DNS_server">
+      </div>
+      <div>
+        <label for="domain_name">Enter Domain Name: </label>
+        <input type="text" id="domain_name" name="domain_name">
+      </div>
+      <div>
+        <label for="default_router">Enter Default Router: </label>
+        <input type="text" id="default_router" name="default_router">
+      </div>
+      <div>
+        <input type="submit" value="Configure">
+      </div>
+    </fieldset>
+  </form>
+  <form id="dhcp-relay-interface" action="/routerDhcpRelayIntConfig" method="post">
+    <fieldset>
+      <legend>
+        Configure DHCP Relay Interface
+      </legend>
+      <div>
+        <label for="relay_interface">Enter Relay Interface: </label>
+        <input type="text" id="relay_interface" name="relay_interface">
+      </div>
+      <div>
+        <label for="interface_ip">Enter Interface IP: </label>
+        <input type="text" id="interface_ip" name="interface_ip">
+      </div>
+      <div>
+        <input type="submit" value="Configure">
+      </div>
+    </fieldset>
+  </form>
+  <form id="dhcp-client-interface" action="/routerDhcpClientInterfaceConfig" method="post">
+    <fieldset>
+      <legend>DHCP Client Interface</legend>
+      <div>
+        <label for="client_interface">Enter client interface whose IP will be configured by DHCP: </label>
+        <select name="client_interface">
+          <option value="" disabled selected hidden>Please choose Interface</option>
+          {% for interface in deviceInterfaces %}
+              <option value="{{ interface }}">{{ interface }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <input type="submit" value="Configure">
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="configure-forms" id="routerUpdateOS" style="display: none;">
+  <form id="router-update-os" action="/routerUpdateOsConfig" method="post">
+    <fieldset>
+      <legend>
+        Update From Flash
+      </legend>
+      <div>
+        <lable for="source">Enter Source: </lable>
+        <input type="text" id="source" name="source">
+      </div>
+      <div>
+        <lable for="destination">Enter Destination: </lable>
+        <input type="text" id="destination" name="destination">
+      </div>
+      <div>
+        <label for="remote_host">Enter Remote Host: </label>
+        <input type="text" id="remote_host" name="remote_host">
+      </div>
+      <div>
+        <label for="source_filename">Enter Source Filename: </label>
+        <input type="text" id="source_filename" name="source_filename">
+      </div>
+      <div>
+        <label for="destination_filename"> Enter Destination Filename: </label>
+        <input type="text" id="destination_filename" name="destination_filename">
+      </div>
+      <div>
+        <input type="submit" value="Update">
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="configure-forms" id="routerNtpConfig" style="display: none;">
+  <form id="set-clock" action="/routerSetClockConfig" method="post">
+    <fieldset>
+      <legend>Set Clock</legend>
+      <div>
+        <label for="time">Enter Time: </label>
+        <input type="number" class="time" name="hour" min=1 max=23> :
+        <input type="number" class="time" name="minute" min=1 max=59> :
+        <input type="number" class="time" name="second" min=1 max=59>
+      </div>
+      <div>
+        <label for="day">Day of the month: </label>
+        <input type="number" name="day" min=1 max=31>
+      </div>
+      <div>
+        <label for="month">Enter Month: </label>
+        <select name="month">
+          <option value="Jan">Jan</option>
+          <option value="Feb">Feb</option>
+          <option value="Mar">Mar</option>
+          <option value="Apr">Apr</option>
+          <option value="May">May</option>
+          <option value="Jun">Jun</option>
+          <option value="Jul">Jul</option>
+          <option value="Aug">Aug</option>
+          <option value="Sep">Sep</option>
+          <option value="Oct">Oct</option>
+          <option value="Nov">Nov</option>
+          <option value="Dec">Dec</option>
+        </select>
+      </div>
+      <div>
+        <label for="year">Enter Year: </label>
+        <input type="number" name="year" min=1500>
+      </div>
+      <div><input type="submit" value="Set Clock"></div>
+        <!--       this button is for function, sync_clock_to_calendar -->
+      
+    </fieldset>
+  </form>
+
+
+  <form id="set-calendar" action="/routerSetCalendarConfig" method="post">
+    <fieldset>
+      <legend>Set Calendar</legend>
+      <div>
+        <label for="cal_time">Time: </label>
+        <input type="number" class="cal_time" name="cal_hour" min=1 max=23> :
+        <input type="number" class="cal_time" name="cal_minute" min=1 max=59> :
+        <input type="number" class="cal_time" name="cal_second" min=1 max=59>
+      </div>
+      <div>
+        <label for="cal_day">Day of the month: </label>
+        <input type="number" name="cal_day" min=1 max=31>
+      </div>
+      <div>
+        <label for="cal_month">Enter Month: </label>
+        <select name="cal_month">
+          <option value="Jan">Jan</option>
+          <option value="Feb">Feb</option>
+          <option value="Mar">Mar</option>
+          <option value="Apr">Apr</option>
+          <option value="May">May</option>
+          <option value="Jun">Jun</option>
+          <option value="Jul">Jul</option>
+          <option value="Aug">Aug</option>
+          <option value="Sep">Sep</option>
+          <option value="Oct">Oct</option>
+          <option value="Nov">Nov</option>
+          <option value="Dec">Dec</option>
+        </select>
+      </div>
+      <div>
+        <label for="cal_year">Enter Year: </label>
+        <input type="number" name="cal_year" min=1500>
+      </div>
+      <div><input type="submit" value="Set Calendar"></div>
+        <!--       this button is for sync_calendar_to_clock function -->
+    </fieldset>
+  </form>
+  
+<form id="read-calendar" action="/routerReadCalendarConfig" method="post">
+  <fieldset>
+    <legend>Sync Clock to Calendar</legend>
+    <div>
+      <label for="read_calendar">Sync the clock to the calendar's time</label>
+    </div>
+    <div>
+      <input type="submit" value="Set" id="read_calendar">
+    </div>
+  </fieldset>
+</form>
+
+<form id="update-calendar" action="/routerUpdateCalendarConfig" method="post">
+  <fieldset>
+    <legend>Sync Calendar to Clock</legend>
+    <div>
+      <label for="update_calendar">Sync the calendar to the clock's time</label>
+    </div>
+    <div>
+      <input type="submit" value="Set" id="update_calendar">
+    </div>
+  </fieldset>
+</form>
+
+  <form id="set-clock-timezone" action="/routerTimezoneConfig" method="post">
+    <fieldset>
+      <legend>Set Clock Timezone Offset</legend>
+      <div>
+        <label for="timezone">Enter Timezone: </label>
+        <input type="text" name="timezone">
+      </div>
+      <div>
+        <label for="hours">Enter Hrs offset from UTC: </label>
+        <input type="number" name="hours"  min=-23 max=23>
+      </div>
+      <div>
+        <label for="minutes">Enter minutes offset from UTC: </label>
+        <input type="number" name="minutes" min=1 max=59>
+      </div>
+      <div><input type="submit" value="Configure Timezone Offset"></div>
+    </fieldset>
+  </form>
+
+  <form id="summer-time" action="/routerSummerTimeConfig" method="post">
+    <fieldset>
+      <legend>Daylight Saving Time (Summer Time)</legend>
+      <div>
+        <label for="timezone">Enter Timezone:</label>
+        <input type="text" name="timezone">
+      </div>
+      <div>
+        <label for="start-week-number">Enter the starting week number: </label>
+        <input type="number" name="start_week_number" min=1 max=4>
+      </div>
+      <div>
+        <label for="start-day">Enter the starting day:</label>
+        <input type="text" name="start_day">
+      </div>
+      <div>
+        <label for="start-month">Enter the starting month:</label>
+        <select name="start_month">
+          <option value="January">January</option>
+          <option value="February">February</option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May">May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+        </select>
+      </div>
+      <div>
+        <label for="start-time">Starting Time: </label>
+        <input type="number" name="start_hour" min=1 max=23> :
+        <input type="number" name="start_minute" min=1 max=59>
+      </div>
+
+
+      <div>
+        <label for="end-week-number">Enter the ending week number: </label>
+        <input type="number" name="end_week_number" min=1 max=4>
+      </div>
+      <div>
+        <label for="end-day">Enter the ending day:</label>
+        <input type="text" name="end_day">
+      </div>
+      <div>
+        <label for="start-month">Enter the ending month:</label>
+        <select name="end_month">
+          <option value="January">January</option>
+          <option value="February">February</option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May">May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+        </select>
+      </div>
+      <div>
+        <label for="end-time">Ending Time: </label>
+        <input type="number" name="end_hour" min=1 max=23> :
+        <input type="number" name="end_minute" min=1 max=59>
+      </div>
+      <div>
+        <label for="offset-time">Offset Time in Seconds</label>
+        <input type="number" name="offset" min=1 max=1440>
+      </div>
+    </fieldset>
+  </form>
+  
+  <form id="add-ntp-server" action="/routerAddNtpServer" method="post">
+    <fieldset>
+      <legend>Add NTP Server</legend>
+      <div>
+        <label for="add_server_ntp">Enter IP of NTP Server: </label>
+        <input type="text" name="add_server_ntp">
+      </div>
+      <div><input type="submit" value="Add Server"></div>
+    </fieldset>
+  </form>
+  
+  <form id="ntp-source-loopback" action="/routerNtpSourceLoopbackConfig" method="post">
+    <fieldset>
+      <legend>Add NTP Source Loopback</legend>
+      <div>
+        <label for="loopback_int">Enter Loopback Interface: </label>
+        <select name="loopback_int">
+          <option value="" disabled selected hidden>Please choose Interface</option>
+          {% for interface in deviceInterfaces %}
+          {% if interface.startswith("Loopback") %}
+              <option value="{{ interface }}">{{ interface }}</option>
+          {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div><input type="submit" value="Add Loopback"></div>
+    </fieldset>
+  </form>
+  
+  <form id="ntp-master" action="/routerNtpMasterConfig" method="post">
+    <fieldset>
+      <legend>NTP Master</legend>
+      <div>
+        <label for=""></label>
+        <input type="submit" value="NTP Master" id="">
+      </div>
+    </fieldset>
+  </form>
+</div>
 
 {% endblock %}
 {% block additionaljs %}

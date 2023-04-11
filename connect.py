@@ -24,7 +24,7 @@ def login():
     ipaddress = request.form['ipaddress']
     username = request.form['username']
     password = request.form['password']
-    #email = request.form['email']
+    #email = request.form['email']  #in dev
     hardware = request.form['hardware']
 
     if(ipaddress and username and password):
@@ -45,7 +45,8 @@ def login():
             flash("Make sure SSH is enabled")
             return(render_template("login.html"))
         else:
-            session['user'] = cisco_device
+            session['user'] = cisco_device.copy()
+            #session['user']['email'] = email #in dev
             if(hardware == "router"):
                 return(redirect('/router'))
             elif(hardware == "switch"):

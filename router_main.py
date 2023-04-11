@@ -23,6 +23,7 @@ import Router.router_configure.NTP_config as NTP_config
 import Router.router_configure.security_configuration as security_configuration
 import Router.router_configure.DNS_config as DNS_config
 import Router.router_configure.DHCP_config as DHCP_config
+import Router.router_configure.update_os as update_os
 
 import Router.router_save_logout.router_save_and_logout as router_save_and_logout
 
@@ -36,17 +37,19 @@ def home():
         return render_template("router_main.html",hoverData=hover_info_display.display_info_on_hover(), deviceInterfaces=interfaces_display.grab_interfaces())
     else:
         return redirect(url_for("main"))
+'''
+def send_email_after_logout():
+    msg = Message('Hello from the other side!', sender =   'alexandra@mailtrap.io', recipients = [session['user']['email']])
+    msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"
+    mail.send(msg)
+    return "Message sent!"
+'''
+
 
 #Display------------------------------------------------------------------------------------------
 #configuration_display
 @router_main.route("/routerRunConf")
 def disp_router_run_conf():
-    #if request.method == 'POST':
-    #datavar = jsonify(request.form)
-    #print(datavar)
-    #html_item = json.dumps(request.form, indent=2, separators=(', ', ': '))
-    #print(html_item)
-    #return('',204)
     return render_template("display_field.html",displayFieldVar=configuration_display.show_running_configuration())
         
 
@@ -213,7 +216,6 @@ def conf_router_ospf_int_route():
         ospf_int = request.form.get("ospf_int")
         process_id = request.form.get("process_id")
         ospf_area = request.form.get("ospf_area")
-        #print(['interface ' + ospf_int, 'ip ospf ' + process_id + ' ' + 'area ' + ospf_area])
         ip_routes.ospf_on_interface(ospf_int,process_id,ospf_area)
         return Response(status=204)
 
@@ -227,6 +229,13 @@ def conf_router_int_layer_3():
         int_sub_mask = request.form.get("int_sub_mask")
         int_description = request.form.get("int_description")
         interface_config.configure_interface_layer_3(int_name,int_ip,int_sub_mask,int_description)
+        return Response(status=204)
+    
+@router_main.route('/routerAddLoopbackInterface', methods=['GET','POST'])
+def conf_loopback_int():
+    if request.method == 'POST':
+        loopb_number = request.form.get("loopb_number")
+        interface_config.create_loopback_interface(loopb_number)
         return Response(status=204)
 
 #LLDP configuration
@@ -300,8 +309,145 @@ def router_domain_name_config():
         return Response(status=204)
 
 
+#DHCP configuration
+@router_main.route('/dhcpExcludeAddress', methods=['GET','POST'])
+def router_dhcp_exclude_address():
+    if request.method == 'POST':
+        exclude_start_ip = request.form.get("exclude_start_ip")
+        exclude_end_ip = request.form.get("exclude_end_ip")
+        DHCP_config.dhcp_exclude_address(exclude_start_ip,exclude_end_ip)
+        return Response(status=204)
+    
+@router_main.route('/addDhcpPoolConfig', methods=['GET','POST'])
+def router_add_dhcp_pool_config():
+    if request.method == 'POST':
+        pool_name = request.form.get("pool_name")
+        pool_ip = request.form.get("pool_ip")
+        pool_submask = request.form.get("pool_submask")
+        DNS_server = request.form.get("DNS_server")
+        domain_name = request.form.get("domain_name")
+        default_router = request.form.get("default_router")
+        DHCP_config.dhcp_pool(pool_name,pool_ip,pool_submask,DNS_server,domain_name,default_router)
+        return Response(status=204)
+    
+@router_main.route('/routerDhcpRelayIntConfig', methods=['GET','POST'])
+def router_dhcp_relay_int_config():
+    if request.method == 'POST':
+        relay_interface = request.form.get("relay_interface")
+        interface_ip = request.form.get("interface_ip")
+        DHCP_config.dhcp_relay_int(relay_interface,interface_ip)
+        return Response(status=204)
+    
+@router_main.route('/routerDhcpClientInterfaceConfig', methods=['GET','POST'])
+def router_dchp_client_int_config():
+    if request.method == 'POST':
+        client_interface = request.form.get("client_interface")       
+        DHCP_config.dhcp_client_int(client_interface)
+        return Response(status=204)
+    
+#router update os
+@router_main.route('/routerUpdateOsConfig', methods=['GET','POST'])
+def router_update_os_config():
+    if request.method == 'POST':
+        source = request.form.get("source")
+        destination = request.form.get("destination")
+        remote_host = request.form.get("remote_host")
+        source_filename = request.form.get("source_filename")
+        destination_filename = request.form.get("destination_filename")
+        update_os.update_from_flash(source,destination, remote_host, source_filename, destination_filename)
+        return Response(status=204)
 
 
+
+#NTP configuration
+@router_main.route('/routerSetClockConfig', methods=['GET','POST'])
+def router_ntp_set_clock_config():
+    if request.method == 'POST':
+        hour = request.form.get("hour")
+        minute = request.form.get("minute")
+        second = request.form.get("second")
+        day = request.form.get("day")
+        month = request.form.get("month")
+        year = request.form.get("year")
+        NTP_config.set_clock(hour,minute,second,day,month,year)
+        return Response(status=204)
+
+@router_main.route('/routerSetCalendarConfig', methods=['GET','POST'])
+def router_ntp_set_calendar_config():
+    if request.method == 'POST':
+        cal_hour = request.form.get("cal_hour")
+        cal_minute = request.form.get("cal_minute")
+        cal_second = request.form.get("cal_second")
+        cal_day = request.form.get("cal_day")
+        cal_month = request.form.get("cal_month")
+        cal_year = request.form.get("cal_year")
+        NTP_config.set_calendar(cal_hour,cal_minute,cal_second,cal_day,cal_month,cal_year)
+        return Response(status=204)
+    
+@router_main.route('/routerReadCalendarConfig', methods=['GET','POST'])
+def router_ntp_read_calendar_config():
+    if request.method == 'POST':
+        NTP_config.sync_clock_to_calendar()
+        return Response(status=204)
+    
+@router_main.route('/routerUpdateCalendarConfig', methods=['GET','POST'])
+def router_ntp_update_calendar_config():
+    if request.method == 'POST':
+        NTP_config.sync_calendar_to_clock()
+        return Response(status=204)
+
+@router_main.route('/routerTimezoneConfig', methods=['GET','POST'])
+def router_ntp_timezone_config():
+    if request.method == 'POST':
+        timezone = request.form.get("timezone")
+        hours = request.form.get("hours")
+        minutes = request.form.get("minutes")
+        NTP_config.set_clock_timezone_offset(timezone,hours,minutes)
+        return Response(status=204)
+    
+@router_main.route('/routerSummerTimeConfig', methods=['GET','POST'])
+def router_ntp_summertime_config():
+    if request.method == 'POST':
+        timezone = request.form.get("timezone")
+        start_week_number = request.form.get("start_week_number")
+        start_day = request.form.get("start_day")
+        start_month = request.form.get("start_month")
+        start_hour = request.form.get("start_hour")
+        start_minute = request.form.get("start_minute")
+        end_week_number = request.form.get("end_week_number")
+        end_day = request.form.get("end_day")
+        end_month = request.form.get("end_month")
+        end_hour = request.form.get("end_hour")
+        end_minute = request.form.get("end_minute")
+        offset = request.form.get("offset")
+        NTP_config.clock_summer_time_recurring_config(timezone,start_week_number,start_day,start_month,start_hour,start_minute,end_week_number,end_day,end_month,end_hour,end_minute,offset)
+        return Response(status=204)
+
+@router_main.route('/routerAddNtpServer', methods=['GET','POST'])
+def router_ntp_addserver_config():
+    add_server_ntp = request.form.get("add_server_ntp")
+    NTP_config.add_ntp_server(add_server_ntp)
+    return Response(status=204)
+
+@router_main.route('/routerNtpSourceLoopbackConfig', methods=['GET','POST'])
+def router_ntp_source_loopback_config():
+    loopback_int = request.form.get("loopback_int")
+    NTP_config.add_ntp_source_loopback(loopback_int)
+    return Response(status=204)
+
+@router_main.route('/routerNtpMasterConfig', methods=['GET','POST'])
+def router_ntp_master_config():
+    NTP_config.ntp_master()
+    return Response(status=204)
+
+
+
+
+
+
+
+
+#SAVE and LOGOUT
 @router_main.route('/routerSave')
 def save():
     router_save_and_logout.router_save()
