@@ -38,12 +38,6 @@ def disp_ARP_table():
 #Configuartion display
 @switch_main.route("/switchRunConf")
 def disp_switch_run_conf():
-    #if request.method == 'POST':
-    #datavar = jsonify(request.form)
-    #print(datavar)
-    #html_item = json.dumps(request.form, indent=2, separators=(', ', ': '))
-    #print(html_item)
-    #return('',204)
     return render_template("display_field.html",displayFieldVar=configuration_display.show_running_configuration())
 
 @switch_main.route("/switchStartConf")
@@ -198,11 +192,41 @@ def switch_interface_config_layer2():
         int_speed = request.form.get("int_speed")
         int_duplex = request.form.get("int_duplex")
         int_description = request.form.get("int_description")
-        print('interface '+ int_name , 'no negotiation auto', 'speed ' + int_speed , 'duplex ' + int_duplex , 'description ' + int_description)
-        #interface_config.configure_interface_layer_2(int_name, int_speed, int_duplex, int_description)
+        interface_config.configure_interface_layer_2(int_name, int_speed, int_duplex, int_description)
+        return Response(status=204)
+    
+#VLAN Config
+@switch_main.route('/swithCreateVlan', methods=['GET','POST'])
+def switch_create_vlan_config():
+    if request.method == 'POST':
+        vlan_number = request.form.get("vlan_number")
+        vlan_name = request.form.get("vlan_name")
+        vlan_config.create_vlan(vlan_number,vlan_name)
+        return Response(status=204)
+    
+@switch_main.route('/switchCreateTrunkInterface', methods=['GET','POST'])
+def switch_create_vlan_trunk_interface_config():
+    if request.method == 'POST':
+        bef_int = request.form.get("bef_int")
+        vlan_config.create_trunk_interface(bef_int)
         return Response(status=204)
 
+#EtherChannel Config
+@switch_main.route('/switchEtherChannelLoadBalanceConfig', methods=['GET','POST'])
+def switch_etherchennel_load_balance_config():
+    if request.method == 'POST':
+        lbtype = request.form.get("lbtype")
+        etherchannel_config.etherchannel_loadbalance_config(lbtype)
+        return Response(status=204)
 
+@switch_main.route('/switchEtherChannelLacpConfig', methods=['GET','POST'])
+def switch_etherchennel_lacp_config():
+    if request.method == 'POST':
+        interface_range = request.form.get("interface_range")
+        channel_group = request.form.get("channel_group")
+        LACP_mode = request.form.get("LACP_mode")
+        etherchannel_config.etherchannel_LACP_range_config(interface_range,channel_group,LACP_mode)
+        return Response(status=204)
 
 #LLDP config
 @switch_main.route('/switchLldpGlobalEnable', methods=['GET','POST'])

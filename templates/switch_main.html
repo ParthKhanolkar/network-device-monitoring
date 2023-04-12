@@ -89,6 +89,8 @@
 <button onclick="javascript:invisible(switchMacConfig)">Configure MAC address table</button>
 <button onclick="javascript:invisible(switchIntConfigLayerTwo)">Configure switch interface</button>
 <button onclick="javascript:invisible(switchLldpConfig)">Configure switch LLDP</button>
+<button onclick="javascript:invisible(switchVlanConfig)">Configure switch VLAN</button>
+<button onclick="javascript:invisible(switchEtherChannelConfig)">Configure switch EtherChannel</button>
 {% endblock %}
 {% block whitespace %}
 <div class="configure-forms" id="switchMacConfig" style="display: none;">
@@ -136,7 +138,7 @@
 </div>
 
 <div>
-  <form class="configure-forms" id="switchIntConfigLayerTwo" style="display: none;">
+  <form class="configure-forms" id="/switchIntConfigLayerTwo" style="display: none;">
     <fieldset>
       <legend>Configure Interface at Layer 2</legend>
       <div>
@@ -171,7 +173,95 @@
   </form>
 </div>
 
+<div class="configure-forms" id="switchVlanConfig" style="display: none;">
+  <form id="cleate-vlan" action="/swithCreateVlan" method="post">
+    <fieldset>
+      <legend>
+        Create VLAN
+      </legend>
+      <div>
+        <label for="vlanNumber">Enter Vlan Number: </label>
+        <input type="text" id="vlanNumber" name="vlan_number">
+      </div>
+  
+      <div>
+        <label for="vlanName">Enter Vlan Name: </label>
+        <input type="text" id="vlanName" name="vlan_name">
+      </div>
+  
+      <div>
+        <input type="submit" value="Create">
+      </div>
+    </fieldset>
+  </form>
+  
+  <form id="create-trunk" action="/switchCreateTrunkInterface" method="post">
+    <fieldset>
+      <legend>
+        Create Trunk Interface
+      </legend>
+      <div>
+        <label for="trunkInterface">Enter Interface to be Trunked: </label>
+        <select name="bef_int">
+          <option value="" disabled selected hidden>Please choose Interface</option>
+          {% for interface in deviceInterfaces %}
+              <option value="{{ interface }}">{{ interface }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <input type="submit" value="Create">
+      </div>
+    </fieldset>
+  </form>
+</div>
 
+<div class="configure-forms" id="switchEtherChannelConfig" style="display: none;">
+  <form id="ether-channel-loadbalance" action="/switchEtherChannelLoadBalanceConfig" method="post">
+    <fieldset>
+      <legend>Ether-Channel LoadBalance Config</legend>
+      <div>
+        <label for="lbtype">Enter Load Balancing Config: </label>
+        <select name="month">
+          <option value="dst-ip">Dst IP Addr</option>
+          <option value="dst-mac">Dst MAC Addr</option>
+          <option value="src-dst-ip">Src XOR Dst IP Addr</option>
+          <option value="src-dst-mac">Src XOR Dst MAC Addr</option>
+          <option value="src-ip">Src IP Addr</option>
+          <option value="src-mac">Src MAC Addr</option>
+        </select>
+      </div>
+      <div>
+        <input type="submit" value="Configure">
+      </div>
+    </fieldset>
+  </form>
+  
+  <form id="ether-channel-lacp" action="/switchEtherChannelLacpConfig" method="post">
+    <fieldset>
+      <legend>Ether-Channel LACP Range Config</legend>
+      <div>
+        <label for="interface_range">Enter Interface Range: </label>
+        <input type="text" id="interface_range" name="interface_range">
+      </div>
+      <div>
+        <label for="interface_range">Enter Channel Group Number: </label>
+        <input type="number" id="channel_group" name="channel_group" min="1" max="255">
+      </div>
+      <div>
+        <label for="LACP_mode">Enter LACP mode: </label>
+        <select name="LACP_mode">
+          <option value="active">Active</option>
+          <option value="passive">Passive</option>
+        </select>
+      </div>
+      <div>
+        <input type="submit" value="Configure">
+      </div>
+    </fieldset>
+  </form>
+
+</div>
 
 <div class="configure-forms" id="switchLldpConfig" style="display: none;">
     <form id="switch-lldp-global-enable" action="/switchLldpGlobalEnable" method="post">
