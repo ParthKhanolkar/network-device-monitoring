@@ -1,4 +1,5 @@
-from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session, json, jsonify, Response
+from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session, json, jsonify, Response, current_app
+from flask_mail import Mail, Message
 
 router_main = Blueprint("router_main", __name__, static_folder="static", template_folder="templates")
 
@@ -457,7 +458,12 @@ def save():
 @router_main.route('/routerLogout')
 def logout():
     #delete session info
-    router_save_and_logout.router_logout()
-    session.pop('user', None)
-    return redirect(url_for("main"))
+    with current_app.app_context():
+        mail = Mail()
+        msg = Message(subject='configuration data from ' + session['user']['ip'], sender = 'NDMAS@BEproject.com', recipients = [session['user']['email']])
+        msg.body = render_template("email.html",Device_data = tech_support.show_os_version_json(), SysLog = syslog.syslog_display())
+        mail.send(msg)
+        router_save_and_logout.router_logout()
+        session.pop('user', None)
+        return redirect(url_for("main"))
 

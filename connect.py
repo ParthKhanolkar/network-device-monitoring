@@ -1,4 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request, flash, session, current_app
+from flask_mail import Mail, Message
 from netmiko import ConnectHandler
 from netmiko import (NetmikoTimeoutException, NetmikoAuthenticationException)
 from paramiko.ssh_exception import SSHException
@@ -9,6 +10,13 @@ from switch_main import switch_main
 app = Flask(__name__)
 app.register_blueprint(router_main)
 app.register_blueprint(switch_main)
+
+app.config['MAIL_SERVER']='127.0.0.1'
+app.config['MAIL_PORT'] = 1025
+app.config['MAIL_USERNAME'] = ''
+app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_USE_TLS'] = False
+mail = Mail(app)
 app.secret_key = "ywZlyASUtzbr5hZqJy74pSQSck8GPSPb"
 with app.app_context():
     current_app.config["ssh_connect"] = None
@@ -24,7 +32,7 @@ def login():
     ipaddress = request.form['ipaddress']
     username = request.form['username']
     password = request.form['password']
-    #email = request.form['email']  #in dev
+    email = request.form['email']  #in dev
     hardware = request.form['hardware']
 
     if(ipaddress and username and password):
@@ -46,7 +54,7 @@ def login():
             return(render_template("login.html"))
         else:
             session['user'] = cisco_device.copy()
-            #session['user']['email'] = email #in dev
+            session['user']['email'] = email #in dev
             if(hardware == "router"):
                 return(redirect('/router'))
             elif(hardware == "switch"):

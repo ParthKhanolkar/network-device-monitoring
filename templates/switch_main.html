@@ -87,10 +87,11 @@
 {% endblock %}
 {% block configurelist %}
 <button onclick="javascript:invisible(switchMacConfig)">Configure MAC address table</button>
-<button onclick="javascript:invisible(switchIntConfigLayerTwo)">Configure switch interface</button>
+<button onclick="javascript:invisible(switchIntConfig)">Configure switch interface</button>
 <button onclick="javascript:invisible(switchLldpConfig)">Configure switch LLDP</button>
 <button onclick="javascript:invisible(switchVlanConfig)">Configure switch VLAN</button>
 <button onclick="javascript:invisible(switchEtherChannelConfig)">Configure switch EtherChannel</button>
+<button onclick="javascript:invisible(switchNtpConfig)">Configure switch NTP</button>
 {% endblock %}
 {% block whitespace %}
 <div class="configure-forms" id="switchMacConfig" style="display: none;">
@@ -137,8 +138,8 @@
       </form>
 </div>
 
-<div>
-  <form class="configure-forms" id="/switchIntConfigLayerTwo" style="display: none;">
+<div class="configure-forms" id="switchIntConfig" style="display: none;">
+  <form id="layer-two-config" action="/switchIntConfigLayerTwo" method="post">
     <fieldset>
       <legend>Configure Interface at Layer 2</legend>
       <div>
@@ -170,6 +171,19 @@
       </div>
       <div><input type="submit" value="Configure Interface"></div>
     </fieldset>
+  </form>
+
+  <form id="add-loopback-interface" action="/switchAddLoopbackInterface" method="post">
+    <fieldset>
+      <legend>Add Loopback Interface</legend>
+        <div>
+          <label for="loopback-int">Enter Loopback Interface Number</label>
+          <input type="number" name="loopb_number" min="0" max="2147483647">
+        </div>
+        <div><input type="submit" value="Add Interface"></div>
+      
+    </fieldset>
+
   </form>
 </div>
 
@@ -260,7 +274,6 @@
       </div>
     </fieldset>
   </form>
-
 </div>
 
 <div class="configure-forms" id="switchLldpConfig" style="display: none;">
@@ -334,6 +347,246 @@
           </div>
         </fieldset>
       </form>
+  </div>
+
+  <div class="configure-forms" id="switchNtpConfig" style="display: none;">
+    <form id="set-clock" action="/switchSetClockConfig" method="post">
+      <fieldset>
+        <legend>Set Clock</legend>
+        <div>
+          <label for="time">Enter Time: </label>
+          <input type="number" class="time" name="hour" min=1 max=23> :
+          <input type="number" class="time" name="minute" min=1 max=59> :
+          <input type="number" class="time" name="second" min=1 max=59>
+        </div>
+        <div>
+          <label for="day">Day of the month: </label>
+          <input type="number" name="day" min=1 max=31>
+        </div>
+        <div>
+          <label for="month">Enter Month: </label>
+          <select name="month">
+            <option value="Jan">Jan</option>
+            <option value="Feb">Feb</option>
+            <option value="Mar">Mar</option>
+            <option value="Apr">Apr</option>
+            <option value="May">May</option>
+            <option value="Jun">Jun</option>
+            <option value="Jul">Jul</option>
+            <option value="Aug">Aug</option>
+            <option value="Sep">Sep</option>
+            <option value="Oct">Oct</option>
+            <option value="Nov">Nov</option>
+            <option value="Dec">Dec</option>
+          </select>
+        </div>
+        <div>
+          <label for="year">Enter Year: </label>
+          <input type="number" name="year" min=1500>
+        </div>
+        <div><input type="submit" value="Set Clock"></div>
+          <!--       this button is for function, sync_clock_to_calendar -->
+        
+      </fieldset>
+    </form>
+  
+  
+    <form id="set-calendar" action="/switchSetCalendarConfig" method="post">
+      <fieldset>
+        <legend>Set Calendar</legend>
+        <div>
+          <label for="cal_time">Time: </label>
+          <input type="number" class="cal_time" name="cal_hour" min=1 max=23> :
+          <input type="number" class="cal_time" name="cal_minute" min=1 max=59> :
+          <input type="number" class="cal_time" name="cal_second" min=1 max=59>
+        </div>
+        <div>
+          <label for="cal_day">Day of the month: </label>
+          <input type="number" name="cal_day" min=1 max=31>
+        </div>
+        <div>
+          <label for="cal_month">Enter Month: </label>
+          <select name="cal_month">
+            <option value="Jan">Jan</option>
+            <option value="Feb">Feb</option>
+            <option value="Mar">Mar</option>
+            <option value="Apr">Apr</option>
+            <option value="May">May</option>
+            <option value="Jun">Jun</option>
+            <option value="Jul">Jul</option>
+            <option value="Aug">Aug</option>
+            <option value="Sep">Sep</option>
+            <option value="Oct">Oct</option>
+            <option value="Nov">Nov</option>
+            <option value="Dec">Dec</option>
+          </select>
+        </div>
+        <div>
+          <label for="cal_year">Enter Year: </label>
+          <input type="number" name="cal_year" min=1500>
+        </div>
+        <div><input type="submit" value="Set Calendar"></div>
+          <!--       this button is for sync_calendar_to_clock function -->
+      </fieldset>
+    </form>
+    
+  <form id="read-calendar" action="/switchReadCalendarConfig" method="post">
+    <fieldset>
+      <legend>Sync Clock to Calendar</legend>
+      <div>
+        <label for="read_calendar">Sync the clock to the calendar's time</label>
+      </div>
+      <div>
+        <input type="submit" value="Set" id="read_calendar">
+      </div>
+    </fieldset>
+  </form>
+  
+  <form id="update-calendar" action="/switchUpdateCalendarConfig" method="post">
+    <fieldset>
+      <legend>Sync Calendar to Clock</legend>
+      <div>
+        <label for="update_calendar">Sync the calendar to the clock's time</label>
+      </div>
+      <div>
+        <input type="submit" value="Set" id="update_calendar">
+      </div>
+    </fieldset>
+  </form>
+  
+    <form id="set-clock-timezone" action="/switchTimezoneConfig" method="post">
+      <fieldset>
+        <legend>Set Clock Timezone Offset</legend>
+        <div>
+          <label for="timezone">Enter Timezone: </label>
+          <input type="text" name="timezone">
+        </div>
+        <div>
+          <label for="hours">Enter Hrs offset from UTC: </label>
+          <input type="number" name="hours"  min=-23 max=23>
+        </div>
+        <div>
+          <label for="minutes">Enter minutes offset from UTC: </label>
+          <input type="number" name="minutes" min=1 max=59>
+        </div>
+        <div><input type="submit" value="Configure Timezone Offset"></div>
+      </fieldset>
+    </form>
+  
+    <form id="summer-time" action="/switchSummerTimeConfig" method="post">
+      <fieldset>
+        <legend>Daylight Saving Time (Summer Time)</legend>
+        <div>
+          <label for="timezone">Enter Timezone:</label>
+          <input type="text" name="timezone">
+        </div>
+        <div>
+          <label for="start-week-number">Enter the starting week number: </label>
+          <input type="number" name="start_week_number" min=1 max=4>
+        </div>
+        <div>
+          <label for="start-day">Enter the starting day:</label>
+          <input type="text" name="start_day">
+        </div>
+        <div>
+          <label for="start-month">Enter the starting month:</label>
+          <select name="start_month">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+          </select>
+        </div>
+        <div>
+          <label for="start-time">Starting Time: </label>
+          <input type="number" name="start_hour" min=1 max=23> :
+          <input type="number" name="start_minute" min=1 max=59>
+        </div>
+  
+  
+        <div>
+          <label for="end-week-number">Enter the ending week number: </label>
+          <input type="number" name="end_week_number" min=1 max=4>
+        </div>
+        <div>
+          <label for="end-day">Enter the ending day:</label>
+          <input type="text" name="end_day">
+        </div>
+        <div>
+          <label for="start-month">Enter the ending month:</label>
+          <select name="end_month">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+          </select>
+        </div>
+        <div>
+          <label for="end-time">Ending Time: </label>
+          <input type="number" name="end_hour" min=1 max=23> :
+          <input type="number" name="end_minute" min=1 max=59>
+        </div>
+        <div>
+          <label for="offset-time">Offset Time in Seconds</label>
+          <input type="number" name="offset" min=1 max=1440>
+        </div>
+      </fieldset>
+    </form>
+    
+    <form id="add-ntp-server" action="/switchAddNtpServer" method="post">
+      <fieldset>
+        <legend>Add NTP Server</legend>
+        <div>
+          <label for="add_server_ntp">Enter IP of NTP Server: </label>
+          <input type="text" name="add_server_ntp">
+        </div>
+        <div><input type="submit" value="Add Server"></div>
+      </fieldset>
+    </form>
+    
+    <form id="ntp-source-loopback" action="/switchNtpSourceLoopbackConfig" method="post">
+      <fieldset>
+        <legend>Add NTP Source Loopback</legend>
+        <div>
+          <label for="loopback_int">Enter Loopback Interface: </label>
+          <select name="loopback_int">
+            <option value="" disabled selected hidden>Please choose Interface</option>
+            {% for interface in deviceInterfaces %}
+            {% if interface.startswith("Loopback") %}
+                <option value="{{ interface }}">{{ interface }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div><input type="submit" value="Add Loopback"></div>
+      </fieldset>
+    </form>
+    
+    <form id="ntp-master" action="/switchNtpMasterConfig" method="post">
+      <fieldset>
+        <legend>NTP Master</legend>
+        <div>
+          <label for=""></label>
+          <input type="submit" value="NTP Master" id="">
+        </div>
+      </fieldset>
+    </form>
   </div>
 
 {% endblock %}

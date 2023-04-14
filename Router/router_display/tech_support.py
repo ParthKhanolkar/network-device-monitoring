@@ -34,6 +34,11 @@ def show_os_version():
     ssh_connect = get_ssh_connect()
     return ssh_connect.send_command('show version')
 
+def show_os_version_json():
+    from connect import get_ssh_connect
+    ssh_connect = get_ssh_connect()
+    return ssh_connect.send_command('show version',use_textfsm=True)
+
 def show_flash_memory():
     from connect import get_ssh_connect
     ssh_connect = get_ssh_connect()

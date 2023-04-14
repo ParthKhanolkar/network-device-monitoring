@@ -1,4 +1,5 @@
-from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session, json, jsonify, Response
+from flask import Flask, Blueprint, redirect, url_for, render_template, request, flash, session, json, jsonify, Response, current_app
+from flask_mail import Mail, Message
 
 switch_main = Blueprint("switch_main", __name__, static_folder="static", template_folder="templates")
 
@@ -184,7 +185,7 @@ def clear_specific_MAC_interface():
         conf_mac.clear_specific_mac_interface(interface_input)
         return Response(status=204)
     
-#Switch interface layer 2
+#Switch interface
 @switch_main.route('/switchIntConfigLayerTwo', methods=['GET','POST'])
 def switch_interface_config_layer2():
     if request.method == 'POST':
@@ -194,7 +195,14 @@ def switch_interface_config_layer2():
         int_description = request.form.get("int_description")
         interface_config.configure_interface_layer_2(int_name, int_speed, int_duplex, int_description)
         return Response(status=204)
-    
+
+@switch_main.route('/switchAddLoopbackInterface', methods=['GET','POST'])
+def switch_conf_loopback_int():
+    if request.method == 'POST':
+        loopb_number = request.form.get("loopb_number")
+        interface_config.create_loopback_interface(loopb_number)
+        return Response(status=204)
+
 #VLAN Config
 @switch_main.route('/swithCreateVlan', methods=['GET','POST'])
 def switch_create_vlan_config():
@@ -263,7 +271,86 @@ def switch_lldp_reinit_config():
         LLDP_config.lldp_reinit_config(reinit_time)
         return Response(status=204)
 
+#switch NTP config
+@switch_main.route('/switchSetClockConfig', methods=['GET','POST'])
+def switch_ntp_set_clock_config():
+    if request.method == 'POST':
+        hour = request.form.get("hour")
+        minute = request.form.get("minute")
+        second = request.form.get("second")
+        day = request.form.get("day")
+        month = request.form.get("month")
+        year = request.form.get("year")
+        NTP_config.set_clock(hour,minute,second,day,month,year)
+        return Response(status=204)
 
+@switch_main.route('/switchSetCalendarConfig', methods=['GET','POST'])
+def switch_ntp_set_calendar_config():
+    if request.method == 'POST':
+        cal_hour = request.form.get("cal_hour")
+        cal_minute = request.form.get("cal_minute")
+        cal_second = request.form.get("cal_second")
+        cal_day = request.form.get("cal_day")
+        cal_month = request.form.get("cal_month")
+        cal_year = request.form.get("cal_year")
+        NTP_config.set_calendar(cal_hour,cal_minute,cal_second,cal_day,cal_month,cal_year)
+        return Response(status=204)
+    
+@switch_main.route('/switchReadCalendarConfig', methods=['GET','POST'])
+def switch_ntp_read_calendar_config():
+    if request.method == 'POST':
+        NTP_config.sync_clock_to_calendar()
+        return Response(status=204)
+    
+@switch_main.route('/switchUpdateCalendarConfig', methods=['GET','POST'])
+def switch_ntp_update_calendar_config():
+    if request.method == 'POST':
+        NTP_config.sync_calendar_to_clock()
+        return Response(status=204)
+
+@switch_main.route('/switchTimezoneConfig', methods=['GET','POST'])
+def switch_ntp_timezone_config():
+    if request.method == 'POST':
+        timezone = request.form.get("timezone")
+        hours = request.form.get("hours")
+        minutes = request.form.get("minutes")
+        NTP_config.set_clock_timezone_offset(timezone,hours,minutes)
+        return Response(status=204)
+    
+@switch_main.route('/switchSummerTimeConfig', methods=['GET','POST'])
+def switch_ntp_summertime_config():
+    if request.method == 'POST':
+        timezone = request.form.get("timezone")
+        start_week_number = request.form.get("start_week_number")
+        start_day = request.form.get("start_day")
+        start_month = request.form.get("start_month")
+        start_hour = request.form.get("start_hour")
+        start_minute = request.form.get("start_minute")
+        end_week_number = request.form.get("end_week_number")
+        end_day = request.form.get("end_day")
+        end_month = request.form.get("end_month")
+        end_hour = request.form.get("end_hour")
+        end_minute = request.form.get("end_minute")
+        offset = request.form.get("offset")
+        NTP_config.clock_summer_time_recurring_config(timezone,start_week_number,start_day,start_month,start_hour,start_minute,end_week_number,end_day,end_month,end_hour,end_minute,offset)
+        return Response(status=204)
+
+@switch_main.route('/switchAddNtpServer', methods=['GET','POST'])
+def switch_ntp_addserver_config():
+    add_server_ntp = request.form.get("add_server_ntp")
+    NTP_config.add_ntp_server(add_server_ntp)
+    return Response(status=204)
+
+@switch_main.route('/switchNtpSourceLoopbackConfig', methods=['GET','POST'])
+def switch_ntp_source_loopback_config():
+    loopback_int = request.form.get("loopback_int")
+    NTP_config.add_ntp_source_loopback(loopback_int)
+    return Response(status=204)
+
+@switch_main.route('/switchNtpMasterConfig', methods=['GET','POST'])
+def switch_ntp_master_config():
+    NTP_config.ntp_master()
+    return Response(status=204)
 
 @switch_main.route('/switchSave')
 def save():
@@ -274,6 +361,11 @@ def save():
 @switch_main.route('/switchLogout')
 def logout():
     #delete session info
-    switch_save_and_logout.switch_logout()
-    session.pop('user', None)
-    return redirect(url_for("main"))
+    with current_app.app_context():
+        mail = Mail()
+        msg = Message(subject='configuration data from ' + session['user']['ip'], sender = 'NDMAS@BEproject.com', recipients = [session['user']['email']])
+        msg.body = render_template("email.html",Device_data = tech_support.show_os_version_json(), SysLog = syslog.syslog_display())
+        mail.send(msg)
+        switch_save_and_logout.switch_logout()
+        session.pop('user', None)
+        return redirect(url_for("main"))
