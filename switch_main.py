@@ -361,20 +361,23 @@ def switch_ntp_summertime_config():
 
 @switch_main.route('/switchAddNtpServer', methods=['GET','POST'])
 def switch_ntp_addserver_config():
-    add_server_ntp = request.form.get("add_server_ntp")
-    NTP_config.add_ntp_server(add_server_ntp)
-    return Response(status=204)
+    if request.method == 'POST':
+        add_server_ntp = request.form.get("add_server_ntp")
+        NTP_config.add_ntp_server(add_server_ntp)
+        return Response(status=204)
 
 @switch_main.route('/switchNtpSourceLoopbackConfig', methods=['GET','POST'])
 def switch_ntp_source_loopback_config():
-    loopback_int = request.form.get("loopback_int")
-    NTP_config.add_ntp_source_loopback(loopback_int)
-    return Response(status=204)
+    if request.method == 'POST':
+        loopback_int = request.form.get("loopback_int")
+        NTP_config.add_ntp_source_loopback(loopback_int)
+        return Response(status=204)
 
 @switch_main.route('/switchNtpMasterConfig', methods=['GET','POST'])
 def switch_ntp_master_config():
-    NTP_config.ntp_master()
-    return Response(status=204)
+    if request.method == 'POST':
+        NTP_config.ntp_master()
+        return Response(status=204)
 
 @switch_main.route('/switchSave')
 def save():

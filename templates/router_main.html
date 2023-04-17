@@ -829,6 +829,7 @@
       <label for="subnet_mask">Enter Subnet Mask: </label>
       <input type="text" id="subnet_mask" name="subnet_mask">
     </div>
+    <div><input type="submit" value="Add Sub Interface"></div>
   </fieldset>
 </form>
 <form id="native-vlan-on-stick" action="/routerNativeVlanConfig" method="post">
@@ -841,6 +842,7 @@
         {% for interface in deviceInterfaces %}
         {% if "." in interface%}
             <option value="{{ interface }}">{{ interface }}</option>
+        {% endif %}
         {% endfor %}
       </select>
     </div>
@@ -848,8 +850,9 @@
       <label for="native_vlan">Enter Native Vlan Number: </label>
       <input type="text" id="native_vlan" name="native_vlan">
     </div>
+    <div><input type="submit" value="Add NAtive VLAN"></div>
   </fieldset>
-  <input type="button" value="Add NAtive VLAN">
+  
 </form>
 </div>
 
