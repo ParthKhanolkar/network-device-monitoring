@@ -208,6 +208,23 @@
       </div>
     </fieldset>
   </form>
+
+  <form id="vlan-interface" action="/switchVlanInterfaceConfig" method="post">
+    <fieldset>
+      <legend>Add Interfaces to VLAN</legend>
+      <div>
+        <label for="vlanNo">Enter VLAN Number: </label>
+        <input type="text" id="vlanNo" name="vlan_number">
+      </div>
+      <div>
+        <label for="interfaceRange">Enter Interface Range: </label>
+        <input type="text" id="vlanInterfaces" name="int_range">
+      </div>  
+      <div>
+        <input type="submit" value="Add Interfaces">
+      </div>
+    </fieldset>
+  </form>
   
   <form id="create-trunk" action="/switchCreateTrunkInterface" method="post">
     <fieldset>
@@ -228,6 +245,37 @@
       </div>
     </fieldset>
   </form>
+
+  <form id="allowed-vlan" action="/switchInterfaceAllowedVlanConfig" method="post">
+    <fieldset>
+      <legend>Allowed VLAN on trunk interface</legend>
+      <div>
+        <label for="TrunkInt">Enter Trunk interface: </label>
+        <input type="text" id="trunk_int" name="trunk_int">
+      </div>
+      <div>
+        <label for="Allowed">Enter Allowed Vlan number or specification: </label>
+        <input type="text" id="allowed_vlan" name="allowed_vlan">
+      </div>  
+      <div><input type="submit" value="Add"></div>
+    </fieldset>
+  </form>
+
+  <form id="native-vlan" action="/switchInterfaceNativeVlanConfig" method="post">
+    <fieldset>
+      <legend>Native VLAN on trunk interface</legend>
+      <div>
+        <label for="TrunkInt">Enter Trunk interface: </label>
+        <input type="text" id="trunk_int" name="trunk_int">
+      </div>
+      <div>
+        <label for="Native">Enter Native Vlan number: </label>
+        <input type="text" id="native_vlan" name="native_vlan">
+      </div>  
+      <div><input type="submit" value="Add"></div>
+    </fieldset>
+  </form>
+
 </div>
 
 <div class="configure-forms" id="switchEtherChannelConfig" style="display: none;">

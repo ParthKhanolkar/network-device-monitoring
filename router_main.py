@@ -25,6 +25,7 @@ import Router.router_configure.security_configuration as security_configuration
 import Router.router_configure.DNS_config as DNS_config
 import Router.router_configure.DHCP_config as DHCP_config
 import Router.router_configure.update_os as update_os
+import Router.router_configure.vlan_config as vlan_config
 
 import Router.router_save_logout.router_save_and_logout as router_save_and_logout
 
@@ -426,20 +427,42 @@ def router_ntp_summertime_config():
 
 @router_main.route('/routerAddNtpServer', methods=['GET','POST'])
 def router_ntp_addserver_config():
-    add_server_ntp = request.form.get("add_server_ntp")
-    NTP_config.add_ntp_server(add_server_ntp)
-    return Response(status=204)
+    if request.method == 'POST':
+        add_server_ntp = request.form.get("add_server_ntp")
+        NTP_config.add_ntp_server(add_server_ntp)
+        return Response(status=204)
 
 @router_main.route('/routerNtpSourceLoopbackConfig', methods=['GET','POST'])
 def router_ntp_source_loopback_config():
-    loopback_int = request.form.get("loopback_int")
-    NTP_config.add_ntp_source_loopback(loopback_int)
-    return Response(status=204)
+    if request.method == 'POST':
+        loopback_int = request.form.get("loopback_int")
+        NTP_config.add_ntp_source_loopback(loopback_int)
+        return Response(status=204)
 
 @router_main.route('/routerNtpMasterConfig', methods=['GET','POST'])
 def router_ntp_master_config():
-    NTP_config.ntp_master()
-    return Response(status=204)
+    if request.method == 'POST':
+        NTP_config.ntp_master()
+        return Response(status=204)
+
+#VLAN Confid
+@router_main.route('/routerCreateSubinterface', methods=['GET','POST'])
+def router_add_vlan_subint():
+    if request.method == 'POST':
+        int_name = request.form.get("int_name")
+        vlan_number = request.form.get("vlan_number")
+        ip_address = request.form.get("ip_address")
+        subnet_mask = request.form.get("subnet_mask")
+        vlan_config.add_vlan_subinterfaces(int_name, vlan_number, ip_address, subnet_mask)
+        return Response(status=204)
+    
+@router_main.route('/routerNativeVlanConfig', methods=['GET','POST'])
+def router_add_native_vlan():
+    if request.method == 'POST':
+        sub_interface = request.form.get("sub_interface")
+        native_vlan = request.form.get("native_vlan")
+        vlan_config.router_add_native_vlan(sub_interface, native_vlan)
+        return Response(status=204)
 
 
 

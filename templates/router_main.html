@@ -96,6 +96,7 @@
 <button onclick="javascript:invisible(routerDnsConfig)">Configure DNS</button>
 <button onclick="javascript:invisible(routerDhcpConfig)">Configure DHCP</button>
 <button onclick="javascript:invisible(routerNtpConfig)">Configure NTP</button>
+<button onclick="javascript:invisible(routerOnAStickConfig)">Router On A Stick (ROAS)</button>
 {% endblock %}
 {% block whitespace %}
 <div class="configure-forms" id="ipRouteConfig" style="display: none;">
@@ -797,11 +798,59 @@
     <fieldset>
       <legend>NTP Master</legend>
       <div>
-        <label for=""></label>
-        <input type="submit" value="NTP Master" id="">
+        <input type="submit" value="NTP Master" id="NTP-Master">
       </div>
     </fieldset>
   </form>
+</div>
+
+<div class="configure-forms" id="routerOnAStickConfig" style="display: none;">
+<form id="sub-interface" action="/routerCreateSubinterface" method="post">
+  <fieldset>
+    <legend>Create Sub Interface for VLAN</legend>
+    <div>
+      <label for="int_name">Enter Interface to create Sub Interfaces: </label>
+      <select name="int_name">
+        <option value="" disabled selected hidden>Please choose Interface</option>
+        {% for interface in deviceInterfaces %}
+            <option value="{{ interface }}">{{ interface }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="vlan_number">Enter VLAN Number: </label>
+      <input type="text" id="vlan_number" name="vlan_number">
+    </div>
+    <div>
+      <label for="ip_address">Enter IP address of the VLAN: </label>
+      <input type="text" id="ip_address" name="ip_address">
+    </div>
+    <div>
+      <label for="subnet_mask">Enter Subnet Mask: </label>
+      <input type="text" id="subnet_mask" name="subnet_mask">
+    </div>
+  </fieldset>
+</form>
+<form id="native-vlan-on-stick" action="/routerNativeVlanConfig" method="post">
+  <fieldset>
+    <legend>Add Native VLAN to Sub Interface</legend>
+    <div>
+      <label for="sub_interface">Enter Sub Interface: </label>
+      <select name="sub_interface">
+        <option value="" disabled selected hidden>Please choose Sub Interface</option>
+        {% for interface in deviceInterfaces %}
+        {% if "." in interface%}
+            <option value="{{ interface }}">{{ interface }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="native_vlan">Enter Native Vlan Number: </label>
+      <input type="text" id="native_vlan" name="native_vlan">
+    </div>
+  </fieldset>
+  <input type="button" value="Add NAtive VLAN">
+</form>
 </div>
 
 {% endblock %}

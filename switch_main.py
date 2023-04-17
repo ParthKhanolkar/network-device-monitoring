@@ -211,7 +211,15 @@ def switch_create_vlan_config():
         vlan_name = request.form.get("vlan_name")
         vlan_config.create_vlan(vlan_number,vlan_name)
         return Response(status=204)
-    
+
+@switch_main.route('/switchVlanInterfaceConfig', methods=['GET','POST'])
+def switch_create_vlan_interfaces_config():
+    if request.method == 'POST':
+        vlan_number = request.form.get("vlan_number")
+        int_range = request.form.get("int_range") 
+        vlan_config.configure_vlan_interfaces(vlan_number, int_range)
+        return Response(status=204)
+
 @switch_main.route('/switchCreateTrunkInterface', methods=['GET','POST'])
 def switch_create_vlan_trunk_interface_config():
     if request.method == 'POST':
@@ -219,6 +227,22 @@ def switch_create_vlan_trunk_interface_config():
         vlan_config.create_trunk_interface(bef_int)
         return Response(status=204)
 
+@switch_main.route('/switchInterfaceAllowedVlanConfig', methods=['GET','POST'])
+def switch_create_vlan_allowed_config():
+    if request.method == 'POST':
+        trunk_int = request.form.get("trunk_int")
+        allowed_vlan = request.form.get("allowed_vlan")
+        vlan_config.trunk_allowed_vlan(trunk_int, allowed_vlan)
+        return Response(status=204)
+
+@switch_main.route('/switchInterfaceNativeVlanConfig', methods=['GET','POST'])
+def switch_create_vlan_native_config():
+    if request.method == 'POST':
+        trunk_int = request.form.get("trunk_int")
+        native_vlan = request.form.get("native_vlan")
+        vlan_config.trunk_allowed_vlan(trunk_int, native_vlan)
+        return Response(status=204)
+    
 #EtherChannel Config
 @switch_main.route('/switchEtherChannelLoadBalanceConfig', methods=['GET','POST'])
 def switch_etherchennel_load_balance_config():
