@@ -123,7 +123,6 @@
           <legend>Clear Mac Interface</legend>
           <div>
             <label for="interface_input">Enter the interface:</label>
-            <input type="text" id="interface_input">
             <select name="interface_input">
               <option value="" disabled selected hidden>Please choose Interface</option>
               {% for interface in deviceInterfaces %}
@@ -636,6 +635,137 @@
     </form>
   </div>
 
+  <div class="configure-forms" id="switchLldpConfig" style="display: none;">
+    <form id="" action="" method="post">
+      <fieldset>
+        <legend>
+          PortFast and bpdu Guard
+        </legend>
+        <div>
+          <label for="spanningTreeInterface">Enter Interface:</label>
+          <input type="text" id="spanningTreeInterface" name="spanningTreeInterface">
+        </div>
+        <div>
+          <label for="">Enable PortFast: </label>
+          <input type="submit" value="Enable">
+        </div>
+        <div>
+          <label>Enable bpdu Guard:</label>
+          <input type="submit" value="Enable">
+        </div>
+        <div>
+          <label>Enable bpdu Guard for all Interfaces: </label>
+          <input type="submit" value="Enable">
+        </div>
+      </fieldset>
+    </form>
+    
+    <form action="">
+      <fieldset>
+        <legend>
+          Configure Mode
+        </legend>
+        <div>
+          <label for="spanningTreeMode">Enter Spanning Tree Mode: </label>
+          <input type="text" id="spanningTreeMode" name="spanningTreeMode">
+        </div>
+        <div>
+          <input type="submit" value="Configure">
+        </div>
+      </fieldset>
+    </form>
+    
+    <form action="">
+      <fieldset>
+        <legend>
+          Configure V-LAN Priority
+        </legend>
+        <fieldset>
+          <legend>
+            V-LAN Priority(Non-root)
+          </legend>
+          <div>
+            <label for="nonRootVlanNumber">Enter VLAN Number: </label>
+            <input type="text" id="nonRootVlanNumber" name="nonRootVlanNumber">
+          </div>
+    
+          <div>
+            <label for="nonRootPriority">Enter Priority: </label>
+            <input type="text" id="nonRootPriority" name="nonRootPriority">
+          </div>
+    
+          <div>
+            <input type="submit" value="Configure">
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>V-LAN Priority(Root)</legend>
+          <div>
+            <label for="rootVlanNumber">Enter Vlan Number: </label>
+            <input type="text" id="rootVlanNumber" name="rootVlanNumber">
+          </div>
+          <div>
+            <label for="rootPriority">Enter Root Priority: </label>
+            <input type="text" id="rootPriority" name="rootPriority">
+          </div>
+    
+          <div>
+            <input type="submit" value="Configure">
+          </div>
+    
+        </fieldset>
+        <fieldset>
+          <legend>
+            Vlan Cost
+          </legend>
+          <div>
+            <label for="costVlanNumber">Enter Vlan Number: </label>
+            <input type="text" id="costVlanNumber" name="costVlanNumber">
+          </div>
+          <div>
+            <label for="vlanCost">Enter Cost: </label>
+            <input type="text" id="vlanCost" name="vlanCost">
+          </div>
+    
+          <div>
+            <input type="submit" value="Configure">
+          </div>
+    
+        </fieldset>
+        <fieldset>
+          <legend>Port Priority</legend>
+          <div>
+            <label for="portVlanNumber">Enter Vlan Number: </label>
+            <input type="text" id="portVlanNumber" name="portVlanNumber">
+          </div>
+          <div>
+            <label for="portPriority">Enter Port Priority: </label>
+            <input type="text" id="portPriority" name="portPriority">
+          </div>
+    
+          <div>
+            <input type="submit" value="Configure">
+          </div>
+    
+        </fieldset>
+      </fieldset>
+    </form>
+    
+    <form action="">
+      <fieldset>
+        <legend>RSTP Link Type</legend>
+        <div>
+          <label for="RSTPlink_type">Enter RSTP Link Type: </label>
+          <input type="text" id="RSTPlink_type" name="RSTPlink_type">
+        </div>
+    
+        <div>
+          <input type="submit" value="Configure">
+        </div>
+    
+      </fieldset>
+    </form>
+  </div>
 {% endblock %}
 {% block additionaljs %}
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/switch_op.js') }}"> </script>

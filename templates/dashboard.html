@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/dashboard.css') }}">
@@ -16,7 +14,7 @@
         <li class="bad">
           <a href="#" class="active">
             <i class='bx bx-user'></i>
-            <span class="links_name"><b><u>User Info</u></b><br>Username: {{session['user']['username']}}<br>IP Address: {{session['user']['ip']}}</span>
+            <span class="links_name"><b><u>User Info</u></b><br>Username: {{session['user']['username']}}<br>IP Address: {{session['user']['ip']}}<br>E-Mail: {{session['user']['email']}}</span>
           </a>
           </li>
        <li class="bad1">
